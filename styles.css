@@ -1,0 +1,65 @@
+* {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background-color: #4e4e4e;
+    font-size: 1rem;
+}
+
+h1 {
+margin: 50px auto;
+text-align: center;
+font-size: 5rem;
+}
+
+h2 {
+    width: 80%;
+    text-align: center;
+    font-size: 2.5rem;
+    padding-bottom: 25px;
+    margin: auto;
+}
+
+.gameField {
+display: flex;
+flex-direction: row;
+/* flex-wrap: wrap; */
+}
+
+.board {
+    /* justify-content: center;
+    align-content: center;
+    align-items: center;
+    margin: auto; */
+    /* flex-wrap: wrap; */
+    padding-bottom: 200px;
+}
+
+table {
+    width: 80%;
+    border: 1px solid;
+    border-collapse: collapse;
+    table-layout: fixed;
+    empty-cells: show;
+    flex-direction: column;
+    margin: auto;
+    
+}
+
+th, tr, td {
+    border: 1px solid;
+    text-align: center;
+    padding: 15px;
+}
+
+td:hover {
+    cursor: pointer;
+    background-color: #7c7c7c;
+}
+
+
+@media only screen and (max-width: 1024px) {
+    .gameField {
+        flex-direction: column;
+    }
+}
