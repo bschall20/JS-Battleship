@@ -55,6 +55,27 @@ th, tr, td {
 td:hover {
     cursor: pointer;
     background-color: #7c7c7c;
+    /* could just use this when isShot: 0; */
+}
+
+.isShot{
+    /* 
+    take away td:hover
+    take away ability to click again
+    maybe add permanent background color?
+    */
+}
+
+.isShot:hover{
+
+}
+
+.isShip{
+
+}
+
+.isHit{
+
 }
 
 

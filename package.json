@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "jquery": "^3.7.0"
+  },
+  "name": "battleship",
+  "version": "1.0.0",
+  "description": "Battleship Game in JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bschall20/JS-Battleship.git"
+  },
+  "author": "Brennan Schall",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bschall20/JS-Battleship/issues"
+  },
+  "homepage": "https://github.com/bschall20/JS-Battleship#readme",
+  "devDependencies": {}
+}
