@@ -4,8 +4,8 @@ choosePlayers();
 const board1 = [];
 const board2 = [];
 let n = 1;                      // Keeps track of how many times createBoard is ran (for total players(2))
-createBoard(board1);
-createBoard(board2);
+// createBoard(board1);
+// createBoard(board2);
 
 
 
@@ -20,16 +20,44 @@ createBoard(board2);
 // }
 // else {function placeShips(board 1); function pcShips(board2)}
 
-function choosePlayers(players){
-    alert("hey!");
-    var onePlayer = $("<button>1 Player</button>")
-    var twoPlayer = $("<button>2 Player</button>")
+function choosePlayers() {
+    var onePlayer = $("<button id='1player'>1 Player</button>")
+    var twoPlayer = $("<button id='2player'>2 Player</button>")
 
     onePlayer.appendTo($(".gameField"));
     twoPlayer.appendTo($(".gameField"));
 
-    return placeShips();
+    $('#1player, #2player').on("click", (function () {
+        if (this.id === '1player') {
+            alert("1 Player Game");
+            $("#1player").addClass("hide");
+            $("#2player").addClass("hide");
+            createBoard(board1);
+            // return (
+            //     createBoard(board1),
+            //     createBoard(board2))
+        }
+
+        else if (this.id === '2player') {
+            alert("2 Player Game");
+            $("#1player").addClass("hide");
+            $("#2player").addClass("hide");
+            createBoard(board1);
+            // return (
+            //     createBoard(board1),
+            //     createBoard(board2))
+        }
+    }));
+
+    return 0;
 }
+
+// $("td").on("click", (function () {
+//     // e.preventDefault();
+//     console.log($(this).prop("id"));
+//     $(this).toggleClass("isShip")
+//     //call function next? xFunction();
+// }));
 
 //******************************END CHOOSE PLAYERS*****************************//
 //                                                                             //
@@ -113,7 +141,7 @@ function createBoard(board) {
 
 
     //table to make a new row at every 10 spot (11 per row) and insert 11 data cells
-    var tableTitle = $("<h2>Player " + n +"</h2>")
+    var tableTitle = $("<h2>Player " + n + "</h2>")
     var table = $("<table></table>");
     for (var i = 0; i < board.length; i++) {
 
@@ -130,8 +158,15 @@ function createBoard(board) {
 
     tableTitle.prependTo($("#board" + n));
     table.appendTo($("#board" + n));
-    n++;
     console.log(board);
+
+    if (n === 1) {
+        placeShips();
+    }
+    else if (n === 2) {
+        placeShips();
+    }
+    else { return 0; }
 }
 
 //****************************END CREATE PLAYER BOARD**************************//
@@ -161,17 +196,47 @@ function placeShips() {
     const submarine = 3;
     const destroyer = 2;
 
-    alert("Place ships!");
+    alert("Place ships, Player " + n + "!");
+
+
+    $("td").on("click", (function () {
+        console.log($(this).prop("id"));
+        $(this).toggleClass("isShip")
+    }));
+
+
+    //*****ADD CONDITIONS TO NOT LET PLAYER PLACE 1 SQ RANDOMLY
+    // ADDRESS TOGGLESHIP ALWAYS WORKING ON BOARD 2 AFTER donePlacingP2 IS CLICKED
+
+
+    if (n === 1) {
+        //toggleShip;
+        var donePlacingP1 = $("<button class='donePlacingP1'>Done Placing Battleships</button>")
+        donePlacingP1.appendTo($("#board1"));
+        $(".donePlacingP1").on("click", (function () {
+            console.log("User 1 is done placing their battleships!");
+            n++;
+            createBoard(board2);
+            $(".donePlacingP1").addClass("hide");
+        }));
+    }
+    else if (n === 2) {
+        //toggleShip;
+        var donePlacingP2 = $("<button class='donePlacingP2'>Done Placing Battleships</button>")
+        donePlacingP2.appendTo($("#board2"));
+        $(".donePlacingP2").on("click", (function () {
+            console.log("User 2 is done placing their battleships!");
+            n++;
+
+            //Call player 1 to play.
+            $(".donePlacingP2").addClass("hide");
+        }));
+    }
+    else { return 0; }
+
 
     //for board 2, just place ships via the case statements (if i = x, class=isShip)
 }
-
-$("td").on("click", (function () {
-    // e.preventDefault();
-    console.log($(this).prop("id"));
-    $(this).toggleClass("isShip")
-    //call function next? xFunction();
-}));
 
 
 //on click, make isShot go to 1, add isShot to the <td></td> cell, adjust numbers
