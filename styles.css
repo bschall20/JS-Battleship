@@ -20,6 +20,11 @@ h2 {
     margin: auto;
 }
 
+button{
+    margin: auto;
+    border: 1px solid black;
+}
+
 .gameField {
 display: flex;
 flex-direction: row;
@@ -35,6 +40,14 @@ flex-direction: row;
     padding-bottom: 200px;
 }
 
+/* #board1 td{
+    background-color: aqua;
+}
+
+#board2 td{
+    background-color: red;
+} */
+
 table {
     width: 80%;
     border: 1px solid;
@@ -43,19 +56,35 @@ table {
     empty-cells: show;
     flex-direction: column;
     margin: auto;
-    
+    border-top: none;
+    border-left: none;
 }
 
 th, tr, td {
     border: 1px solid;
     text-align: center;
     padding: 15px;
+    background-color: rgb(63, 194, 255);
+    border-color: white;
+    color: white;
+     /* border-top: none;
+    border-left: none; */
 }
 
-td:hover {
+/* th {
+    background-color: #4e4e4e;
+    color: white;
+} */
+
+
+/* td {
+    background-color: white;
+} */
+
+#board1 td:hover, #board2 td:hover{
+    background-color: #00ff22;
+    /* background-color: #7c7c7c; */
     cursor: pointer;
-    background-color: #7c7c7c;
-    /* could just use this when isShot: 0; */
 }
 
 .isShot{
@@ -64,18 +93,15 @@ td:hover {
     take away ability to click again
     maybe add permanent background color?
     */
-}
-
-.isShot:hover{
-
+    background-color: yellow;
 }
 
 .isShip{
-
+    background-color: #0077ff;
 }
 
 .isHit{
-
+    background-color: red;
 }
 
 

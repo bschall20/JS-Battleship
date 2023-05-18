@@ -1,88 +1,37 @@
-//******************************CREATE PLAYER BOARD******************************
-const board = [];
-for (let i = 0; i < 121; i++) {
-    board[i] = {
-        cellFill: "",       // Allow board to be labeled
-        location: i,        // Keep track of board location
-        isShot: 0,          // Keep track if location was shot at (add class to not allow it to be clicked again)
-        isShip: 0,          // Keep track if location is ship (used for before game starts)
-        isHit: 0,           // Keep track if ship is hit
-    };
+//********************************GAME FUNCTIONS*******************************//
+choosePlayers();
 
-    //Vertical alignment 0-10 on board
-    if (i % 11 === 0) {
-        board[i].cellFill = i / 11;
-        board[i].isShot = 1;
-    }
+const board1 = [];
+const board2 = [];
+let n = 1;                      // Keeps track of how many times createBoard is ran (for total players(2))
+createBoard(board1);
+createBoard(board2);
 
-    //Horizontal alignment A-J on board
-    switch (i) {
-        case 0:
-            board[i].cellFill = "-";
-            board[i].isShot = 1;
-            break;
-        case 1:
-            board[i].cellFill = "A";
-            board[i].isShot = 1;
-            break;
-        case 2:
-            board[i].cellFill = "B";
-            board[i].isShot = 1;
-            break;
-        case 3:
-            board[i].cellFill = "C";
-            board[i].isShot = 1;
-            break;
-        case 4:
-            board[i].cellFill = "D";
-            board[i].isShot = 1;
-            break;
-        case 5:
-            board[i].cellFill = "E";
-            board[i].isShot = 1;
-            break;
-        case 6:
-            board[i].cellFill = "F";
-            board[i].isShot = 1;
-            break;
-        case 7:
-            board[i].cellFill = "G";
-            board[i].isShot = 1;
-            break;
-        case 8:
-            board[i].cellFill = "H";
-            board[i].isShot = 1;
-            break;
-        case 9:
-            board[i].cellFill = "I";
-            board[i].isShot = 1;
-            break;
-        case 10:
-            board[i].cellFill = "J";
-            board[i].isShot = 1;
-    }
+
+
+//********************************CHOOSE PLAYERS*******************************//
+
+//2 buttons, 1 player or 2 player
+// IF 2 PLAYERS, LET BOTH PLACE SHIPS ON OWN BOARD.
+// IF 1 PLAYER, PLACE SHIPS THEN RUN PC TO CALC ITS SHIPS LOCATIONS
+// if (2player){
+//     function placeShips(board1);
+//     function placeShips(board2);
+// }
+// else {function placeShips(board 1); function pcShips(board2)}
+
+function choosePlayers(players){
+    alert("hey!");
+    var onePlayer = $("<button>1 Player</button>")
+    var twoPlayer = $("<button>2 Player</button>")
+
+    onePlayer.appendTo($(".gameField"));
+    twoPlayer.appendTo($(".gameField"));
+
+    return placeShips();
 }
 
-
-//table to make a new row at every 10 spot (11 per row) and insert 11 data cells
-var table = $("<table></table>");
-for (var i = 0; i < board.length; i++) {
-
-    if (i % 11 === 0) {
-        var row = $("<tr></tr>");
-    }
-
-    if (i % 11 === 0 || (0 <= i && i <= 10 )) {
-        row.append($("<th class='isShot'></th>").html(board[i].cellFill));
-    }
-    else {row.append($("<td></td>").html(board[i].cellFill));}
-    table.append(row);
-}
-table.appendTo($(".board"));
-// console.log(board);
-console.log(board);
-
-//****************************END CREATE PLAYER BOARD****************************
+//******************************END CHOOSE PLAYERS*****************************//
 //                                                                             //
 //                                                                             //
 //              **       **    ********    **      **    ********              //
@@ -94,26 +43,139 @@ console.log(board);
 //              **       **    ********    **      **       **                 //
 //                                                                             //
 //                                                                             //
-//******************************SET UP PLAYER BOARD******************************
+//******************************CREATE PLAYER BOARD******************************
+function createBoard(board) {
+    // const board = [];
+    for (let i = 0; i < 121; i++) {
+        board[i] = {
+            cellFill: "",       // Allow board to be labeled
+            location: i,        // Keep track of board location
+            isShot: 0,          // Keep track if location was shot at (add class to not allow it to be clicked again)
+            isShip: 0,          // Keep track if location is ship (used for before game starts)
+            isHit: 0,           // Keep track if ship is hit
+        };
 
-// $.each(board, function(i, elem){
-//     if(board[i].isShot === 1){
-//         $(elem).addClass('isShot');
-//     }
-// });
+        //Vertical alignment 0-10 on board
+        if (i % 11 === 0) {
+            board[i].cellFill = i / 11;
+            board[i].isShot = 1;
+        }
 
-board.forEach(e => {
-    // console.log(e)
-    if(e.isShot === 1){
-        // console.log(e);
-        $(e).addClass("isShot");
+        //Horizontal alignment A-J on board
+        switch (i) {
+            case 0:
+                board[i].cellFill = "-";
+                board[i].isShot = 1;
+                break;
+            case 1:
+                board[i].cellFill = "A";
+                board[i].isShot = 1;
+                break;
+            case 2:
+                board[i].cellFill = "B";
+                board[i].isShot = 1;
+                break;
+            case 3:
+                board[i].cellFill = "C";
+                board[i].isShot = 1;
+                break;
+            case 4:
+                board[i].cellFill = "D";
+                board[i].isShot = 1;
+                break;
+            case 5:
+                board[i].cellFill = "E";
+                board[i].isShot = 1;
+                break;
+            case 6:
+                board[i].cellFill = "F";
+                board[i].isShot = 1;
+                break;
+            case 7:
+                board[i].cellFill = "G";
+                board[i].isShot = 1;
+                break;
+            case 8:
+                board[i].cellFill = "H";
+                board[i].isShot = 1;
+                break;
+            case 9:
+                board[i].cellFill = "I";
+                board[i].isShot = 1;
+                break;
+            case 10:
+                board[i].cellFill = "J";
+                board[i].isShot = 1;
+        }
     }
 
-    // if(e.isShot === 1){
-    //     // $("e").addClass("isShot");
-    //     // e.classList.add("isShot");
-    // }
-});
+
+
+
+    //table to make a new row at every 10 spot (11 per row) and insert 11 data cells
+    var tableTitle = $("<h2>Player " + n +"</h2>")
+    var table = $("<table></table>");
+    for (var i = 0; i < board.length; i++) {
+
+        if (i % 11 === 0) {
+            var row = $("<tr></tr>");
+        }
+
+        if (i % 11 === 0 || (0 <= i && i <= 10)) {
+            row.append($("<th></th>").html(board[i].cellFill));
+        }
+        else { row.append($("<td id=" + (i) + "></td>").html(board[i].cellFill)); }
+        table.append(row);
+    }
+
+    tableTitle.prependTo($("#board" + n));
+    table.appendTo($("#board" + n));
+    n++;
+    console.log(board);
+}
+
+//****************************END CREATE PLAYER BOARD**************************//
+//                                                                             //
+//                                                                             //
+//              **       **    ********    **      **    ********              //
+//              ** **    **    **           **    **     ********              //
+//              **  **   **    **            **  **         **                 //
+//              **   **  **    ********       ****          **                 //
+//              **    ** **    **            **  **         **                 //
+//              **     ****    ***          **    **        **                 //
+//              **       **    ********    **      **       **                 //
+//                                                                             //
+//                                                                             //
+//******************************SET UP PLAYER BOARD****************************//
+
+
+
+//*********************Set Player Ships*******************//
+//Toggle isShip on and off for setting battleships before game starts
+
+
+function placeShips() {
+    const carrier = 5;
+    const battleship = 4;
+    const cruiser = 3;
+    const submarine = 3;
+    const destroyer = 2;
+
+    alert("Place ships!");
+
+    //for board 2, just place ships via the case statements (if i = x, class=isShip)
+}
+
+$("td").on("click", (function () {
+    // e.preventDefault();
+    console.log($(this).prop("id"));
+    $(this).toggleClass("isShip")
+    //call function next? xFunction();
+}));
+
+
+//on click, make isShot go to 1, add isShot to the <td></td> cell, adjust numbers
+    // look into above loop and jquery to see if you can target the specific table data cell
 
 
 
@@ -122,7 +184,19 @@ board.forEach(e => {
 
 
 
-//****************************END SET UP PLAYER BOARD****************************
+//****************************END SET UP PLAYER BOARD**************************//
+//                                                                             //
+//                                                                             //
+//              **       **    ********    **      **    ********              //
+//              ** **    **    **           **    **     ********              //
+//              **  **   **    **            **  **         **                 //
+//              **   **  **    ********       ****          **                 //
+//              **    ** **    **            **  **         **                 //
+//              **     ****    ***          **    **        **                 //
+//              **       **    ********    **      **       **                 //
+//                                                                             //
+//                                                                             //
+//******************************XXXXXXXXXXXXXXXXXXX****************************//
 
 
 //LOOKING LIKE I MIGHT HAVE TO DO ALL THE INITIALIZING OF ADDING A CLASS UP ABOVE IN THE CREATION???
@@ -131,7 +205,7 @@ board.forEach(e => {
 //Find a way to use object properties as a way of assigning a class to that data cell <td></td>
 
 
-// 1.) isShip starts at 1 if a ship is there. When isShot goes to 1 (on click), 
+// 1.) isShip starts at 1 if a ship is there. When isShot goes to 1 (on click),
 // isHit goes to 1 as well
 // 2.) Don't allow location to be shot at again if isShot = 1
 
