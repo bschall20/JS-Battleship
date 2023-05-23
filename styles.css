@@ -6,6 +6,10 @@
     font-size: 1rem;
 }
 
+body{
+    text-align: center;
+}
+
 h1 {
 margin: 50px auto;
 text-align: center;
@@ -28,6 +32,38 @@ button{
     margin: auto;
     padding: 40px 100px;
     font-size: 50px;
+}
+
+table {
+    /* width was previously 80% with th/tr/td padding of 25px */
+    width: 50%;
+    border: 1px solid;
+    border-collapse: collapse;
+    table-layout: fixed;
+    empty-cells: show;
+    flex-direction: column;
+    margin: auto;
+    border-top: none;
+    border-left: none;
+}
+
+th, tr, td {
+    border: 1px solid;
+    text-align: center;
+    padding: 10px;
+    background-color: rgb(63, 194, 255);
+    border-color: white;
+    color: white;
+
+}
+
+#onePlayer, #twoPlayer {
+    margin: auto 150px;
+}
+
+#board1 td:hover, #board2 td:hover, #board3 td:hover{
+    background-color: #00ff22;
+    cursor: pointer;
 }
 
 .btn {
@@ -65,6 +101,30 @@ button{
     margin: 25px auto;
 }
 
+.vhTitle, .placeTitle {
+    /* align-items: center; */
+    /* display: block; */
+    font-size: 25px;
+    margin: auto;
+    padding: 25px 0px;
+    text-align: center;
+}
+
+.horizBtn, .vertBtn {
+    /* align-items: center; */
+    /* display: inline; */
+    /* display: flex;
+  justify-content: space-between; */
+    /* width: 50%; */
+    font-size: 25px;
+    margin: 10px 35px;
+    /* display: block; */
+}
+
+/* .board button {
+    margin: auto;
+} */
+
 
 .gameField {
 display: flex;
@@ -79,57 +139,11 @@ flex-direction: row;
     margin: auto; */
     /* flex-wrap: wrap; */
     padding-bottom: 200px;
+
 }
 
 .hide {
     display: none;
-}
-
-/* #board1 td{
-    background-color: aqua;
-}
-
-#board2 td{
-    background-color: red;
-} */
-
-table {
-    width: 80%;
-    border: 1px solid;
-    border-collapse: collapse;
-    table-layout: fixed;
-    empty-cells: show;
-    flex-direction: column;
-    margin: auto;
-    border-top: none;
-    border-left: none;
-}
-
-th, tr, td {
-    border: 1px solid;
-    text-align: center;
-    padding: 15px;
-    background-color: rgb(63, 194, 255);
-    border-color: white;
-    color: white;
-     /* border-top: none;
-    border-left: none; */
-}
-
-/* th {
-    background-color: #4e4e4e;
-    color: white;
-} */
-
-
-/* td {
-    background-color: white;
-} */
-
-#board1 td:hover, #board2 td:hover, #board3 td:hover{
-    background-color: #00ff22;
-    /* background-color: #7c7c7c; */
-    cursor: pointer;
 }
 
 .isShot{
