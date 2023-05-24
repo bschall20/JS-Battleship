@@ -28,11 +28,6 @@ function choosePlayers() {
             //call player to create, then call pc to make their board
             players += 1;
             create();
-            // $("#1player").addClass("hide");
-            // $("#2player").addClass("hide");
-            // createBoard(board1);
-            // n += 2;
-            // console.log(n);
         }
 
         else if (this.id === 'twoPlayer') {
@@ -66,62 +61,47 @@ function createBoard(board) {
         board[i] = {
             cellFill: "",       // Allow board to be labeled
             location: i,        // Keep track of board location
-            isShot: 0,          // Keep track if location was shot at (add class to not allow it to be clicked again)
-            isShip: 0,          // Keep track if location is ship (used for before game starts)
-            isHit: 0,           // Keep track if ship is hit
         };
 
         //Vertical alignment 0-10 on board
         if (i % 11 === 0) {
             board[i].cellFill = i / 11;
-            board[i].isShot = 1;
         }
 
         //Horizontal alignment A-J on board
         switch (i) {
             case 0:
                 board[i].cellFill = "-";
-                board[i].isShot = 1;
                 break;
             case 1:
                 board[i].cellFill = "A";
-                board[i].isShot = 1;
                 break;
             case 2:
                 board[i].cellFill = "B";
-                board[i].isShot = 1;
                 break;
             case 3:
                 board[i].cellFill = "C";
-                board[i].isShot = 1;
                 break;
             case 4:
                 board[i].cellFill = "D";
-                board[i].isShot = 1;
                 break;
             case 5:
                 board[i].cellFill = "E";
-                board[i].isShot = 1;
                 break;
             case 6:
                 board[i].cellFill = "F";
-                board[i].isShot = 1;
                 break;
             case 7:
                 board[i].cellFill = "G";
-                board[i].isShot = 1;
                 break;
             case 8:
                 board[i].cellFill = "H";
-                board[i].isShot = 1;
                 break;
             case 9:
                 board[i].cellFill = "I";
-                board[i].isShot = 1;
                 break;
             case 10:
                 board[i].cellFill = "J";
-                board[i].isShot = 1;
         }
     }
 
@@ -153,18 +133,7 @@ function createBoard(board) {
     table.appendTo($("#board" + n));
     console.log(board);
 
-    // if (n === 1) {
-    //     placeShips();
-    // }
-    // else if (n === 2) {
-    //     placeShips();
-    // }
-    // else {
-    //     //n === 3, make it bot create board. createBotBoard
-    //     placeShips();
-    // }
-
-    if (n <= 3) {
+    if (n <= 3) { //n===1 (player 1) ,,, n===2 (player 2) ,,, n===3 (player bot)
         placeAllShips();
     }
 }
@@ -205,9 +174,6 @@ function placeAllShips() {
         const direction = "";       // can use for redundancy of btn click sentences
 
         function hide() {
-            // $(".vhTitle").addClass("hide");
-            // $(".horizBtn").addClass("hide");
-            // $(".vertBtn").addClass("hide");
             $(".vhTitle").remove();
             $(".horizBtn").remove();
             $(".vertBtn").remove();
@@ -219,44 +185,46 @@ function placeAllShips() {
             $(".vertBtn").removeClass("hide");
         }
 
-        // function selectedShipSlotHoriz(ship){
-        //     //maybe import a counter. if horiz, const = 1, if vert, const = 2
-        //              // depending which, can limit where you can click
-        //     if (ship = 5){
-        //         $(this).toggleClass("isShip");
-        // 
-        //     }
-        //     else if (ship = 4){
-        //         $(this).toggleClass("isShip")
+        function finishPlacement(){
+            //PLAYER 1
+            if (n === 1) {
+                var donePlacingP1 = $("<button class='donePlacingP1 btn'>Done Placing Battleships</button>")
+                donePlacingP1.appendTo($("#board1"));
+                $(".donePlacingP1").on("click", (function () {
+                    console.log("User 1 is done placing their battleships!");
+                    if (players === 1) { n += 2 }
+                    else { n++ };
+                    createBoard(board2);
+                    $(".donePlacingP1").addClass("hide");
+                    $("#board1").addClass("hide");      //hides board one after click. taken from n===2 section "Set board for player 2"
+                                                        //maybe call an empty screen with a button here for p2 to hit ready then place?
+                }));
+            }
+            //PLAYER 2
+            else if (n === 2) {
+                var donePlacingP2 = $("<button class='donePlacingP2 btn'>Done Placing Battleships</button>")
+                donePlacingP2.appendTo($("#board2"));
+                $(".donePlacingP2").on("click", (function () {
+                    console.log("User 2 is done placing their battleships!");
+                    n += 2;
+                    //Call player 1 to play.
+                    $(".donePlacingP2").addClass("hide");
+                    $("#board1").removeClass("hide");
+                    // $("#board1 #board2").addClass("hide");
 
-        //     }
-        //     else if (ship = 3){
-        //         $(this).toggleClass("isShip")
+                    $("td").off("click");
+                }));
+            }
+            //PLAYER BOT
+            else if (n === 3) {
+                //add math for randomly selecting a slot. 
+                        //make first input be 1 or 2    :    1 being horiz, 2 being vert
+                        //make math for selecting a TD that isn't the 1-10 or A-J on the board + doesn't violate the boundaries
+                
+            }
+        }
 
-        //     }
-        //     else if (ship = 2){
-        //         $(this).toggleClass("isShip")
-
-        //     }
-        // }
-
-        // function selectedShipSlotVert(ship){
-        //     //maybe import a counter. if horiz, const = 1, if vert, const = 2
-        //             // depending which, can limit where you can click
-        //     if (ship = 5){
-
-        //     }
-        //     else if (ship = 4){
-
-        //     }
-        //     else if (ship = 3){
-
-        //     }
-        //     else if (ship = 2){
-
-        //     }
-        // }
-
+        
         // $("td").on("click", (function () {
         //     console.log($(this).prop("id"));
         //     $(this).toggleClass("isShip")
@@ -278,17 +246,9 @@ function placeAllShips() {
             $("<p class='placeTitle'>***The ship will be placed (" + ship + ") continuous spaces right from the selected slot***</p>").appendTo($("#board" + n));
 
             $("td").on("click", (function () {
-                //selectedShipSlotHoriz(ship);
-
-                // for (let count = 0; count <= 5; count--){
-                //     $(this).toggleClass("isShip").next().toggleClass("isShip").next().toggleClass("isShip").next().toggleClass("isShip").next().toggleClass("isShip");
-
-                //     $("td").off("click");
-                //     $(".placeTitle").addClass("hide");
-                // }
 
                 if (ship === 5) {
-                    $(this).toggleClass("isShip").next().toggleClass("isShip").next().toggleClass("isShip").next().toggleClass("isShip").next().toggleClass("isShip");
+                    $(this).addClass("isShip").next().addClass("isShip").next().addClass("isShip").next().addClass("isShip").next().addClass("isShip");
 
                     //parseint for id numbers to addClass("ship")
                     //if id class = ship, then don't place ship down
@@ -298,14 +258,14 @@ function placeAllShips() {
                     placeShip(4);
                 }
                 else if (ship === 4) {
-                    $(this).toggleClass("isShip").next().toggleClass("isShip").next().toggleClass("isShip").next().toggleClass("isShip");
+                    $(this).addClass("isShip").next().addClass("isShip").next().addClass("isShip").next().addClass("isShip");
 
                     $("td").off("click");
                     $(".placeTitle").addClass("hide");
                     placeShip(3);
                 }
                 else if (ship === 3) {
-                    $(this).toggleClass("isShip").next().toggleClass("isShip").next().toggleClass("isShip");
+                    $(this).addClass("isShip").next().addClass("isShip").next().addClass("isShip");
 
                     $("td").off("click");
                     $(".placeTitle").addClass("hide");
@@ -313,46 +273,12 @@ function placeAllShips() {
                 }
                 //LAST PLAYER SHIP PLACED
                 else if (ship === 2) {
-                    $(this).toggleClass("isShip").next().toggleClass("isShip");
+                    $(this).addClass("isShip").next().addClass("isShip");
                     $("td").off("click");
                     $(".placeTitle").addClass("hide");
 
-                    //PLAYER 1
-                    if (n === 1) {
-                        var donePlacingP1 = $("<button class='donePlacingP1 btn'>Done Placing Battleships</button>")
-                        donePlacingP1.appendTo($("#board1"));
-                        $(".donePlacingP1").on("click", (function () {
-                            console.log("User 1 is done placing their battleships!");
-                            if (players === 1) { n += 2 }
-                            else { n++ };
-                            createBoard(board2);
-                            $(".donePlacingP1").addClass("hide");
-                            $("#board1").addClass("hide");      //hides board one after click. taken from n===2 section "Set board for player 2"
-                                                                //maybe call an empty screen with a button here for p2 to hit ready then place?
-                        }));
-                    }
-                    //PLAYER 2
-                    else if (n === 2) {
-                        var donePlacingP2 = $("<button class='donePlacingP2 btn'>Done Placing Battleships</button>")
-                        donePlacingP2.appendTo($("#board2"));
-                        $(".donePlacingP2").on("click", (function () {
-                            console.log("User 2 is done placing their battleships!");
-                            n += 2;
-                            //Call player 1 to play.
-                            $(".donePlacingP2").addClass("hide");
-                            $("#board1").removeClass("hide");
-                            // $("#board1 #board2").addClass("hide");
-
-                            $("td").off("click");
-                        }));
-                    }
-                    //PLAYER BOT
-                    else if (n === 3) {
-
-                    }
+                    finishPlacement();
                 }
-                // console.log($(this).prop("id"));
-                // $(this).toggleClass("isShip")
             }));
         }));
 
@@ -365,8 +291,62 @@ function placeAllShips() {
             $("<p class='placeTitle'>***The ship will be placed (" + ship + ") continuous spaces upward from the selected slot***</p>").appendTo($("#board" + n));
 
             $("td").on("click", (function () {
-                console.log($(this).prop("id"));
-                $(this).toggleClass("isShip")
+                let slot = $(this).prop("id");
+                // console.log($(this).prop("id"));
+                // $(this).toggleClass("isShip")
+
+                if (ship === 5) {
+                    $(this).addClass("isShip");
+                    slot -= 11;
+                    $("#board"+n+" #"+slot).addClass("isShip");
+                    slot -= 11;
+                    $("#board"+n+" #"+slot).addClass("isShip");
+                    slot -= 11;
+                    $("#board"+n+" #"+slot).addClass("isShip");
+                    slot -= 11;
+                    $("#board"+n+" #"+slot).addClass("isShip");
+
+                    //if id class = ship, then don't place ship down
+                    $("td").off("click");
+                    $(".placeTitle").addClass("hide");
+                    placeShip(4);
+                }
+                else if (ship === 4) {
+                    $(this).addClass("isShip");
+                    slot -= 11;
+                    $("#board"+n+" #"+slot).addClass("isShip");
+                    slot -= 11;
+                    $("#board"+n+" #"+slot).addClass("isShip");
+                    slot -= 11;
+                    $("#board"+n+" #"+slot).addClass("isShip");
+
+                    $("td").off("click");
+                    $(".placeTitle").addClass("hide");
+                    placeShip(3);
+                }
+                else if (ship === 3) {
+                    $(this).addClass("isShip");
+                    slot -= 11;
+                    $("#board"+n+" #"+slot).addClass("isShip");
+                    slot -= 11;
+                    $("#board"+n+" #"+slot).addClass("isShip");
+
+                    $("td").off("click");
+                    $(".placeTitle").addClass("hide");
+                    placeShip(2);
+                }
+                //LAST PLAYER SHIP PLACED
+                else if (ship === 2) {
+                    $(this).addClass("isShip");
+                    slot -= 11;
+                    $("#board"+n+" #"+slot).addClass("isShip");
+
+                    $("td").off("click");
+                    $(".placeTitle").addClass("hide");
+
+                    finishPlacement();
+                }
+
             }));
 
         }));
