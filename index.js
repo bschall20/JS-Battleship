@@ -165,7 +165,7 @@ function placeAllShips() {
 
 
     //can maybe get this function to run as placeShip and make the input variable of the const ships
-    function placeShip(ship) {
+    function placeShip(ship, direction, spot) {
 
         function hide() {
             $(".vhTitle").remove();
@@ -177,7 +177,13 @@ function placeAllShips() {
             let nextShip = ship - 1;
             $("td").off("click");
             $(".placeTitle").addClass("hide");
-            placeShip(nextShip);
+            //placeShip(nextShip);
+            if (n === 1 || n === 2) {
+                placeShip(nextShip);
+            }
+            else if (n === 3) {
+                botShipPlacement(nextShip)
+            }
         }
 
         function finishAllPlacement() {
@@ -215,6 +221,7 @@ function placeAllShips() {
                 //make first input be 1 or 2    :    1 being horiz, 2 being vert
                 //make math for selecting a TD that isn't the 1-10 or A-J on the board + doesn't violate the boundaries
 
+                //this needs to call player 1 to start the game. math will be held below horiz/vert placement functions
             }
         }
 
@@ -230,8 +237,35 @@ function placeAllShips() {
         $("<button class='vertBtn btn'>Place ship (" + ship + ") vertical</button>").insertAfter($(".horizBtn"));
 
 
-        //HORIZONTAL SHIP PLACEMENT
+        //CALL WHICH DIRECTION TO PLACE SHIP
+        //PLAYER CALL
         $(".horizBtn").on("click", (function () {
+            horizontal();
+            console.log("clicked horizontal!");
+        }))
+        $(".vertBtn").on("click", (function () {
+            vertical();
+            console.log("clicked vertical!");
+        }))
+        //BOT CALL
+        if (n === 3 && direction === 1) {
+            horizontal(spot);
+        }
+        else if (n === 3 && direction === 2) {
+            vertical(spot);
+        }
+
+
+        //HORIZONTAL SHIP PLACEMENT
+
+        // function horizontal(){
+        //     if (direction === 1 || horizontal === true){
+        //         horizPlace();
+        //     }
+        // }
+
+        // $(".horizBtn").on("click", (function () {
+        function horizontal(spot) {
 
             //*********KEEP TRACK OF BOUNDARIES ON HORIZONTAL*********//
             var notAllowedHoriz = [
@@ -250,11 +284,18 @@ function placeAllShips() {
             // EX: Placement of ship 3 only needs top 2 rows invalidated for placement
             function endShipPlacementErrorHoriz() {
                 let wrong = ship - 1;
-                alert("ERROR: Try placement elsewhere!")
-                console.log("Cannot place in the following slots (right most " + wrong + " column(s)): " + notAllowedHoriz);
+                // alert("ERROR: Try placement elsewhere!")
+                //console.log("Cannot place in the following slots (right most " + wrong + " column(s)): " + notAllowedHoriz);
                 $("td").off("click");
                 $(".placeTitle").addClass("hide");
-                placeShip(ship);
+                if (n === 1 || n === 2) {
+                    alert("ERROR: Try placement elsewhere!")
+                    console.log("Cannot place in the following slots (right most " + wrong + " column(s)): " + notAllowedHoriz);
+                    placeShip(ship);
+                }
+                else if (n === 3) {
+                    botShipPlacement(ship)
+                }
             }
 
             function notAllowedHoriz4() {
@@ -289,20 +330,44 @@ function placeAllShips() {
             $("<h3 class='placeTitle'>Place Horizontal Ship (" + ship + ") Spots.</h3>").appendTo($("#board" + n));
             $("<p class='placeTitle'>***The ship will be placed (" + ship + ") continuous spaces right from the selected slot***</p>").appendTo($("#board" + n));
 
+
+
             $("td").on("click", (function () {
                 let slotID = $(this).prop("id");
-                let slot = parseInt(slotID);
+                place(slotID);
+            }))
+            if (n === 3) {
+                let spotStr = spot.toString();
+                place(spotStr);
+            }
+
+            //need to get place(spot) to also be the ID spot
+            //something like: $("td").prop("#spot")
+
+            //$("td").on("click", (function () {
+            // let slotID = $(this).prop("id");
+            // let slot = parseInt(slotID);
+            // let slot1 = slot + 1;
+            // let slot2 = slot + 2;
+            // let slot3 = slot + 3;
+
+            function place(boardSpot) {
+                let slot = parseInt(boardSpot);
                 let slot1 = slot + 1;
                 let slot2 = slot + 2;
                 let slot3 = slot + 3;
 
+
+
+
                 //PLACE SHIP OF 5 SLOTS HORIZONTALLY
                 if (ship === 5) {
-                    if (notAllowedHoriz.includes($(this).prop("id"))) {
+                    //if (notAllowedHoriz.includes($(this).prop("id"))) {
+                    if (notAllowedHoriz.includes(boardSpot)) {
                         endShipPlacementErrorHoriz();
                     }
                     else {
-                        $(this).addClass("isShip").next().addClass("isShip").next().addClass("isShip").next().addClass("isShip").next().addClass("isShip");
+                        $(`#board${n} #${slot}`).addClass("isShip").next().addClass("isShip").next().addClass("isShip").next().addClass("isShip").next().addClass("isShip");
                         endShipPlacement();
                     }
                 }
@@ -310,14 +375,15 @@ function placeAllShips() {
                 //PLACE SHIP OF 4 SLOTS HORIZONTALLY
                 else if (ship === 4) {
                     notAllowedHoriz4();
-                    if (notAllowedHoriz.includes($(this).prop("id"))) {
+                    //if (notAllowedHoriz.includes($(boardSpot).prop("id"))) {
+                    if (notAllowedHoriz.includes(boardSpot)) {
                         endShipPlacementErrorHoriz();
                     }
-                    else if (($(this).hasClass("isShip")) || ($(`#board${n} #${slot1}`).hasClass("isShip")) || ($(`#board${n} #${slot2}`).hasClass("isShip")) || ($(`#board${n} #${slot3}`).hasClass("isShip"))) {
+                    else if (($(`#board${n} #${slot}`).hasClass("isShip")) || ($(`#board${n} #${slot1}`).hasClass("isShip")) || ($(`#board${n} #${slot2}`).hasClass("isShip")) || ($(`#board${n} #${slot3}`).hasClass("isShip"))) {
                         endShipPlacementErrorHoriz();
                     }
                     else {
-                        $(this).addClass("isShip").next().addClass("isShip").next().addClass("isShip").next().addClass("isShip");
+                        $(`#board${n} #${slot}`).addClass("isShip").next().addClass("isShip").next().addClass("isShip").next().addClass("isShip");
                         endShipPlacement();
                     }
                 }
@@ -326,209 +392,285 @@ function placeAllShips() {
                 else if (ship === 3) {
                     notAllowedHoriz3();
 
-                    if (notAllowedHoriz.includes($(this).prop("id"))) {
+                    //if (notAllowedHoriz.includes($(boardSpot).prop("id"))) {
+                    if (notAllowedHoriz.includes(boardSpot)) {
                         endShipPlacementErrorHoriz();
                     }
-                    else if (($(this).hasClass("isShip")) || ($(`#board${n} #${slot1}`).hasClass("isShip")) || ($(`#board${n} #${slot2}`).hasClass("isShip"))) {
+                    else if (($(`#board${n} #${slot}`).hasClass("isShip")) || ($(`#board${n} #${slot1}`).hasClass("isShip")) || ($(`#board${n} #${slot2}`).hasClass("isShip"))) {
                         endShipPlacementErrorHoriz();
                     }
                     else {
-                        $(this).addClass("isShip").next().addClass("isShip").next().addClass("isShip");
+                        $(`#board${n} #${slot}`).addClass("isShip").next().addClass("isShip").next().addClass("isShip");
                         endShipPlacement();
                     }
                 }
 
                 //PLACE SHIP OF 2 SLOTS HORIZONTALLY (LAST PLAYER SHIP PLACED)
                 else if (ship === 2) {
-                notAllowedHoriz2();
+                    notAllowedHoriz2();
 
-                if (notAllowedHoriz.includes($(this).prop("id"))) {
-                    endShipPlacementErrorHoriz();
+                    //if (notAllowedHoriz.includes($(boardSpot).prop("id"))) {
+                    if (notAllowedHoriz.includes(boardSpot)) {
+                        endShipPlacementErrorHoriz();
+                    }
+                    else if (($(`#board${n} #${slot}`).hasClass("isShip")) || ($(`#board${n} #${slot1}`).hasClass("isShip"))) {
+                        endShipPlacementErrorHoriz();
+                    }
+                    else {
+                        $(`#board${n} #${slot}`).addClass("isShip").next().addClass("isShip");
+                        $("td").off("click");
+                        $(".placeTitle").addClass("hide");
+                        finishAllPlacement();
+                    }
                 }
-                else if (($(this).hasClass("isShip")) || ($(`#board${n} #${slot1}`).hasClass("isShip"))) {
-                    endShipPlacementErrorHoriz();
-                }
-                else {
-                    $(this).addClass("isShip").next().addClass("isShip");
-                    $("td").off("click");
-                    $(".placeTitle").addClass("hide");
-                    finishAllPlacement();
-                }
+                //}));
             }
-        }));
-    }));
-
-
-    //VERTICAL SHIP PLACEMENT
-    $(".vertBtn").on("click", (function () {
-
-        //*********KEEP TRACK OF BOUNDARIES ON VERTICAL*********//
-        var notAllowedVert = [
-            "12", "13", "14", "15", "16", "17", "18", "19", "20", "21",
-            "23", "24", "25", "26", "27", "28", "29", "30", "31", "32",
-            "34", "35", "36", "37", "38", "39", "40", "41", "42", "43",
-            "45", "46", "47", "48", "49", "50", "51", "52", "53", "54"]
-
-        //NEXT 5 FUNCTIONS FOR ERROR ON HORIZONTAL PLACEMENT BY COMPARING TO ABOVE ARRAY, SUBTRACTING FROM IT ON EACH PASS
-        // EX: Placement of ship 3 only needs right 2 columns invalidated for placement
-        function endShipPlacementErrorVert() {
-            let wrong = ship - 1;
-            alert("ERROR: Try placement elsewhere!")
-            console.log("Cannot place in the following slots (top most " + wrong + " row(s)): " + notAllowedVert);
-            $("td").off("click");
-            $(".placeTitle").addClass("hide");
-            placeShip(ship);
+            // }));
         }
 
-        function notAllowedVertCut() {
-            let length = notAllowedVert.length;
-            for (var i = length; i >= (length - 9); i--) {
-                notAllowedVert.pop();
-            }
-        }
 
-        function notAllowedVert4() {
-            notAllowedVertCut();
-        }
+        //VERTICAL SHIP PLACEMENT
+        //$(".vertBtn").on("click", (function () {
 
-        function notAllowedVert3() {
-            notAllowedVert4();
-            notAllowedVertCut();
-        }
+        function vertical() {
 
-        function notAllowedVert2() {
-            notAllowedVert3();
-            notAllowedVertCut();
-        }
-        //*********KEEP TRACK OF BOUNDARIES ON VERTICAL END*********//
+            //*********KEEP TRACK OF BOUNDARIES ON VERTICAL*********//
+            var notAllowedVert = [
+                "12", "13", "14", "15", "16", "17", "18", "19", "20", "21",
+                "23", "24", "25", "26", "27", "28", "29", "30", "31", "32",
+                "34", "35", "36", "37", "38", "39", "40", "41", "42", "43",
+                "45", "46", "47", "48", "49", "50", "51", "52", "53", "54"]
 
+            //NEXT 5 FUNCTIONS FOR ERROR ON HORIZONTAL PLACEMENT BY COMPARING TO ABOVE ARRAY, SUBTRACTING FROM IT ON EACH PASS
+            // EX: Placement of ship 3 only needs right 2 columns invalidated for placement
+            function endShipPlacementErrorVert() {
+                let wrong = ship - 1;
+                //alert("ERROR: Try placement elsewhere!")
+                //console.log("Cannot place in the following slots (top most " + wrong + " row(s)): " + notAllowedVert);
+                $("td").off("click");
+                $(".placeTitle").addClass("hide");
 
-
-
-        hide();
-        $("<h3 class='placeTitle'>Place Vertical Ship (" + ship + ") Spots.</h3>").appendTo($("#board" + n));
-        $("<p class='placeTitle'>***The ship will be placed (" + ship + ") continuous spaces upward from the selected slot***</p>").appendTo($("#board" + n));
-
-        $("td").on("click", (function () {
-            let slotID = $(this).prop("id");
-            let slot = parseInt(slotID);
-            let slot11 = slot - 11;
-            let slot22 = slot - 22;
-            let slot33 = slot - 33;
-            let slot44 = slot - 44;
-
-            //PLACE SHIP OF 5 SLOTS VERTICALLY
-            if (ship === 5) {
-                if (notAllowedVert.includes($(this).prop("id"))) {
-                    endShipPlacementErrorVert();
+                if (n === 1 || n === 2) {
+                    alert("ERROR: Try placement elsewhere!")
+                    console.log("Cannot place in the following slots (top most " + wrong + " row(s)): " + notAllowedVert);
+                    placeShip(ship);
                 }
-                else {
-                    $(this).addClass("isShip");
-                    $(`#board${n} #${slot11}`).addClass("isShip");
-                    $(`#board${n} #${slot22}`).addClass("isShip");
-                    $(`#board${n} #${slot33}`).addClass("isShip");
-                    $(`#board${n} #${slot44}`).addClass("isShip");
-
-                    endShipPlacement();
+                else if (n === 3) {
+                    botShipPlacement(ship)
                 }
             }
 
-            //PLACE SHIP OF 4 SLOTS VERTICALLY
-            else if (ship === 4) {
+            function notAllowedVertCut() {
+                let length = notAllowedVert.length;
+                for (var i = length; i >= (length - 9); i--) {
+                    notAllowedVert.pop();
+                }
+            }
+
+            function notAllowedVert4() {
+                notAllowedVertCut();
+            }
+
+            function notAllowedVert3() {
                 notAllowedVert4();
-
-                if (notAllowedVert.includes($(this).prop("id"))) {
-                    endShipPlacementErrorVert();
-                }
-                else if (($(this).hasClass("isShip")) || ($(`#board${n} #${slot11}`).hasClass("isShip")) || ($(`#board${n} #${slot22}`).hasClass("isShip")) || ($(`#board${n} #${slot33}`).hasClass("isShip"))) {
-                    endShipPlacementErrorVert();
-                }
-                else {
-                    $(this).addClass("isShip");
-                    $(`#board${n} #${slot11}`).addClass("isShip");
-                    $(`#board${n} #${slot22}`).addClass("isShip");
-                    $(`#board${n} #${slot33}`).addClass("isShip");
-                    endShipPlacement();
-                }
+                notAllowedVertCut();
             }
 
-            //PLACE SHIP OF 3 SLOTS VERTICALLY
-            else if (ship === 3) {
+            function notAllowedVert2() {
                 notAllowedVert3();
+                notAllowedVertCut();
+            }
+            //*********KEEP TRACK OF BOUNDARIES ON VERTICAL END*********//
 
-                if (notAllowedVert.includes($(this).prop("id"))) {
-                    endShipPlacementErrorVert();
-                }
-                else if (($(this).hasClass("isShip")) || ($(`#board${n} #${slot11}`).hasClass("isShip")) || ($(`#board${n} #${slot22}`).hasClass("isShip"))) {
-                    endShipPlacementErrorVert();
-                }
-                else {
-                    $(this).addClass("isShip");
-                    $(`#board${n} #${slot11}`).addClass("isShip");
-                    $(`#board${n} #${slot22}`).addClass("isShip");
-                    endShipPlacement();
-                }
+
+
+
+            hide();
+            $("<h3 class='placeTitle'>Place Vertical Ship (" + ship + ") Spots.</h3>").appendTo($("#board" + n));
+            $("<p class='placeTitle'>***The ship will be placed (" + ship + ") continuous spaces upward from the selected slot***</p>").appendTo($("#board" + n));
+
+
+            // $("td").on("click", (function () {
+            //     let slotID = $(this).prop("id");
+            //     place(slotID);
+            // }))
+            // if (n === 3) {
+            //     place(spot);
+            // }
+
+            $("td").on("click", (function () {
+                let slotID = $(this).prop("id");
+                place(slotID);
+            }))
+            if (n === 3) {
+                let spotStr = spot.toString();
+                place(spotStr);
             }
 
+            // $("td").on("click", (function () {
+            //     let slotID = $(this).prop("id");
+            //     let slot = parseInt(slotID);
+            //     let slot11 = slot - 11;
+            //     let slot22 = slot - 22;
+            //     let slot33 = slot - 33;
+            //     let slot44 = slot - 44;
 
-            //PLACE SHIP OF 2 SLOTS VERTICALLY (LAST PLAYER SHIP PLACED)
-            else if (ship === 2) {
-                notAllowedVert2();
 
-                if (notAllowedVert.includes($(this).prop("id"))) {
-                    endShipPlacementErrorVert();
+            function place(boardSpot) {
+                let slot = parseInt(boardSpot);
+                let slot11 = slot - 11;
+                let slot22 = slot - 22;
+                let slot33 = slot - 33;
+                let slot44 = slot - 44;
+
+
+
+
+
+                //PLACE SHIP OF 5 SLOTS VERTICALLY
+                if (ship === 5) {
+                    if (notAllowedVert.includes(boardSpot)) {
+                    //if (notAllowedVert.includes($(this).prop("id"))) {
+                        endShipPlacementErrorVert();
+                    }
+                    else {
+                        $(`#board${n} #${slot}`).addClass("isShip");
+                        $(`#board${n} #${slot11}`).addClass("isShip");
+                        $(`#board${n} #${slot22}`).addClass("isShip");
+                        $(`#board${n} #${slot33}`).addClass("isShip");
+                        $(`#board${n} #${slot44}`).addClass("isShip");
+
+                        endShipPlacement();
+                    }
                 }
-                else if (($(this).hasClass("isShip")) || ($(`#board${n} #${slot11}`).hasClass("isShip"))) {
-                    endShipPlacementErrorVert();
+
+                //PLACE SHIP OF 4 SLOTS VERTICALLY
+                else if (ship === 4) {
+                    notAllowedVert4();
+
+                    if (notAllowedVert.includes(boardSpot)) {
+                    //if (notAllowedVert.includes($(this).prop("id"))) {
+                        endShipPlacementErrorVert();
+                    }
+                    else if (($(`#board${n} #${slot}`).hasClass("isShip")) || ($(`#board${n} #${slot11}`).hasClass("isShip")) || ($(`#board${n} #${slot22}`).hasClass("isShip")) || ($(`#board${n} #${slot33}`).hasClass("isShip"))) {
+                        endShipPlacementErrorVert();
+                    }
+                    else {
+                        $(`#board${n} #${slot}`).addClass("isShip");
+                        $(`#board${n} #${slot11}`).addClass("isShip");
+                        $(`#board${n} #${slot22}`).addClass("isShip");
+                        $(`#board${n} #${slot33}`).addClass("isShip");
+                        endShipPlacement();
+                    }
                 }
-                else {
-                    $(this).addClass("isShip");
-                    $(`#board${n} #${slot11}`).addClass("isShip");
-                    $("td").off("click");
-                    $(".placeTitle").addClass("hide");
-                    finishAllPlacement();
+
+                //PLACE SHIP OF 3 SLOTS VERTICALLY
+                else if (ship === 3) {
+                    notAllowedVert3();
+
+                    if (notAllowedVert.includes(boardSpot)) {
+                    //if (notAllowedVert.includes($(this).prop("id"))) {
+                        endShipPlacementErrorVert();
+                    }
+                    else if (($(`#board${n} #${slot}`).hasClass("isShip")) || ($(`#board${n} #${slot11}`).hasClass("isShip")) || ($(`#board${n} #${slot22}`).hasClass("isShip"))) {
+                        endShipPlacementErrorVert();
+                    }
+                    else {
+                        $(`#board${n} #${slot}`).addClass("isShip");
+                        $(`#board${n} #${slot11}`).addClass("isShip");
+                        $(`#board${n} #${slot22}`).addClass("isShip");
+                        endShipPlacement();
+                    }
                 }
+
+
+                //PLACE SHIP OF 2 SLOTS VERTICALLY (LAST PLAYER SHIP PLACED)
+                else if (ship === 2) {
+                    notAllowedVert2();
+
+                    if (notAllowedVert.includes(boardSpot)) {
+                    //if (notAllowedVert.includes($(this).prop("id"))) {
+                        endShipPlacementErrorVert();
+                    }
+                    else if (($(`#board${n} #${slot}`).hasClass("isShip")) || ($(`#board${n} #${slot11}`).hasClass("isShip"))) {
+                        endShipPlacementErrorVert();
+                    }
+                    else {
+                        $(`#board${n} #${slot}`).addClass("isShip");
+                        $(`#board${n} #${slot11}`).addClass("isShip");
+                        $("td").off("click");
+                        $(".placeTitle").addClass("hide");
+                        finishAllPlacement();
+                    }
+                }
+                //}));
             }
+            //}));
+        }
+    }
+
+
+    //*****ADD CONDITIONS TO NOT LET PLAYER PLACE 1 SQ RANDOMLY
+    // ADDRESS TOGGLESHIP ALWAYS WORKING ON BOARD 2 AFTER donePlacingP2 IS CLICKED
+
+
+    //Set board for player 1
+    if (n === 1) {
+        alert("Place ships, Player 1!");
+        placeShip(5);
+    }
+
+
+    //Set board for player 2
+    else if (n === 2) {
+        //$("#board1").addClass("hide");
+        alert("Place ships, Player 2!");
+        placeShip(5);
+    }
+
+    // Set board for bot player
+    else if (n === 3) {
+        // else {
+        $("#board1").addClass("hide");
+        alert("Place ships, Bot Player!");
+        var donePlacingBot = $("<button class='donePlacingBot btn'>Done Placing Battleships</button>")
+        donePlacingBot.appendTo($("#board3"));
+
+        function botShipPlacement(shipNum) {
+            let direction = Math.floor(Math.random() * 2 + 1);
+            let spot = Math.floor(Math.random() * 120);
+
+            // if (spot <= 11 || spot % 11 === 0) {
+            //     spot = Math.floor(Math.random() * 120);
+            // }
+
+            do { 
+                spot = Math.floor(Math.random() * 120) 
+            } while (spot <= 11 || spot % 11 === 0);
+
+            console.log(`Bot turn with direction ${direction} and spot of ${spot} with a length of ${shipNum}`);
+
+            //If direction === 1, go horizontal
+            //If direction === 2, go vertical
+            placeShip(shipNum, direction, spot);
+        }
+
+        botShipPlacement(5);
+        // botShipPlacement(4);
+        // botShipPlacement(3);
+        // botShipPlacement(2);
+
+        //Don't add button like have below. Make it call the same function that will be at the end of P2 placement for blank screen
+
+        //get rid of on click. need a loop to generate math to select spots
+        $(".donePlacingBot").on("click", (function () {
+            console.log("Bot User is done placing their battleships!");
+            n++;
+            $(".donePlacingBot").addClass("hide");
+            $("#board1").removeClass("hide");
+            $("td").off("click");
         }));
-    }));
-}
-
-
-//*****ADD CONDITIONS TO NOT LET PLAYER PLACE 1 SQ RANDOMLY
-// ADDRESS TOGGLESHIP ALWAYS WORKING ON BOARD 2 AFTER donePlacingP2 IS CLICKED
-
-
-//Set board for player 1
-if (n === 1) {
-    alert("Place ships, Player 1!");
-    placeShip(5);
-}
-
-
-//Set board for player 2
-else if (n === 2) {
-    //$("#board1").addClass("hide");
-    alert("Place ships, Player 2!");
-    placeShip(5);
-}
-
-// Set board for bot player
-else if (n === 3) {
-    // else {
-    $("#board1").addClass("hide");
-    alert("Place ships, Bot Player!");
-    var donePlacingBot = $("<button class='donePlacingBot'>Done Placing Battleships</button>")
-    donePlacingBot.appendTo($("#board3"));
-
-    //get rid of on click. need a loop to generate math to select spots
-    $(".donePlacingBot").on("click", (function () {
-        console.log("Bot User is done placing their battleships!");
-        n++;
-        $(".donePlacingBot").addClass("hide");
-        $("#board1").removeClass("hide");
-        $("td").off("click");
-    }));
-}
+    }
 
 
 
