@@ -1,8 +1,8 @@
 //********************************GAME FUNCTIONS*******************************//
 choosePlayers();
 const board1 = [];                  // Player 1 Board
-const board2 = [];                  // Player 2 Board
-const board3 = [];                  // Player Bot Board
+const board2 = [];                  // Player 2/Bot Board
+//const board3 = [];                  // Player Bot Board
 let n = 1;
 let players = 0;                    // Keeps track of how many times createBoard is ran (for total players(2))
 
@@ -110,9 +110,9 @@ function createBoard(board) {
 
     //table to make a new row at every 10 spot (11 per row) and insert 11 data cells
     if (n === 1 || n === 2) {
-        var tableTitle = $("<h2>Player " + n + "</h2>")
+        var tableTitle = $("<h2 class='playerTitle'>Player " + n + " Board</h2>")
     }
-    else { var tableTitle = $("<h2>Bot Player</h2>") }
+    else { var tableTitle = $("<h2>Bot Player Board</h2>") }
 
     // var tableTitle = $("<h2>Player " + n + "</h2>")
     var table = $("<table></table>");
@@ -163,6 +163,41 @@ function placeAllShips() {
     // const destroyer = 2;
 
 
+    //Set board for player 1
+    if (n === 1) {
+        alert("Place ships, Player 1!");
+        placeShip(5);
+    }
+
+
+    //Set board for player 2
+    else if (n === 2) {
+        //$("#board1").addClass("hide");
+        alert("Place ships, Player 2!");
+        placeShip(5);
+    }
+
+    // Set board for bot player
+    else if (n === 3) {
+        function botShipPlacement(shipNum) {
+            //If direction === 1, go horizontal
+            //If direction === 2, go vertical
+            let direction = Math.floor(Math.random() * 2 + 1);
+            let spot = Math.floor(Math.random() * 120);
+
+            do {
+                spot = Math.floor(Math.random() * 120)
+            } while (spot <= 11 || spot % 11 === 0);
+
+            console.log(`Bot turn with direction ${direction} and spot of ${spot} with a length of ${shipNum}`);
+            placeShip(shipNum, direction, spot);
+        }
+
+        botShipPlacement(5);
+    }
+
+
+
 
     //can maybe get this function to run as placeShip and make the input variable of the const ships
     function placeShip(ship, direction, spot) {
@@ -179,10 +214,11 @@ function placeAllShips() {
             $(".placeTitle").addClass("hide");
             //placeShip(nextShip);
             if (n === 1 || n === 2) {
-                placeShip(nextShip);
+                //placeShip(nextShip);
+                placeShip(2);
             }
             else if (n === 3) {
-                botShipPlacement(nextShip)
+                botShipPlacement(nextShip);
             }
         }
 
@@ -210,18 +246,42 @@ function placeAllShips() {
                     n += 2;
                     //Call player 1 to play.
                     $(".donePlacingP2").addClass("hide");
-                    $("#board1").removeClass("hide");
+                    //$("#board1").removeClass("hide");
 
                     $("td").off("click");
+                    console.log(`n is equal to ${n}`);
+                    console.log(`Players is equal to ${players}`);
+                    $("#board2").addClass("hide");
+
+                    playerTurns();
                 }));
             }
             //PLAYER BOT
             else if (n === 3) {
-                //add math for randomly selecting a slot. 
-                //make first input be 1 or 2    :    1 being horiz, 2 being vert
-                //make math for selecting a TD that isn't the 1-10 or A-J on the board + doesn't violate the boundaries
 
-                //this needs to call player 1 to start the game. math will be held below horiz/vert placement functions
+                $("#board1").addClass("hide");
+                alert("Place ships, Bot Player!");
+                var donePlacingBot = $("<button class='donePlacingBot btn'>Done Placing Battleships</button>")
+                donePlacingBot.appendTo($("#board3"));
+
+                //Don't add button like have below. Make it call the same function that will be at the end of P2 placement for blank screen
+
+                //get rid of on click. need a loop to generate math to select spots
+                $(".donePlacingBot").on("click", (function () {
+                    console.log("Bot User is done placing their battleships!");
+                    n++;
+                    $(".donePlacingBot").addClass("hide");
+                    //$("#board1").removeClass("hide");
+                    $("td").off("click");
+
+                    console.log(`n is equal to ${n}`);
+                    console.log(`Players is equal to ${players}`);
+
+                    //********UNCOMMENT WHEN DONE TESTING. DON'T WANT TO SEE BOT BOARD. NEED TO GET RID OF BUTTON TOO. JUST CALL THE playerTurns() !! */
+                    $("#board3").addClass("hide");
+
+                    playerTurns();
+                }));
             }
         }
 
@@ -530,7 +590,7 @@ function placeAllShips() {
                 //PLACE SHIP OF 5 SLOTS VERTICALLY
                 if (ship === 5) {
                     if (notAllowedVert.includes(boardSpot)) {
-                    //if (notAllowedVert.includes($(this).prop("id"))) {
+                        //if (notAllowedVert.includes($(this).prop("id"))) {
                         endShipPlacementErrorVert();
                     }
                     else {
@@ -549,7 +609,7 @@ function placeAllShips() {
                     notAllowedVert4();
 
                     if (notAllowedVert.includes(boardSpot)) {
-                    //if (notAllowedVert.includes($(this).prop("id"))) {
+                        //if (notAllowedVert.includes($(this).prop("id"))) {
                         endShipPlacementErrorVert();
                     }
                     else if (($(`#board${n} #${slot}`).hasClass("isShip")) || ($(`#board${n} #${slot11}`).hasClass("isShip")) || ($(`#board${n} #${slot22}`).hasClass("isShip")) || ($(`#board${n} #${slot33}`).hasClass("isShip"))) {
@@ -569,7 +629,7 @@ function placeAllShips() {
                     notAllowedVert3();
 
                     if (notAllowedVert.includes(boardSpot)) {
-                    //if (notAllowedVert.includes($(this).prop("id"))) {
+                        //if (notAllowedVert.includes($(this).prop("id"))) {
                         endShipPlacementErrorVert();
                     }
                     else if (($(`#board${n} #${slot}`).hasClass("isShip")) || ($(`#board${n} #${slot11}`).hasClass("isShip")) || ($(`#board${n} #${slot22}`).hasClass("isShip"))) {
@@ -589,7 +649,7 @@ function placeAllShips() {
                     notAllowedVert2();
 
                     if (notAllowedVert.includes(boardSpot)) {
-                    //if (notAllowedVert.includes($(this).prop("id"))) {
+                        //if (notAllowedVert.includes($(this).prop("id"))) {
                         endShipPlacementErrorVert();
                     }
                     else if (($(`#board${n} #${slot}`).hasClass("isShip")) || ($(`#board${n} #${slot11}`).hasClass("isShip"))) {
@@ -608,78 +668,8 @@ function placeAllShips() {
             //}));
         }
     }
+}
 
-
-    //*****ADD CONDITIONS TO NOT LET PLAYER PLACE 1 SQ RANDOMLY
-    // ADDRESS TOGGLESHIP ALWAYS WORKING ON BOARD 2 AFTER donePlacingP2 IS CLICKED
-
-
-    //Set board for player 1
-    if (n === 1) {
-        alert("Place ships, Player 1!");
-        placeShip(5);
-    }
-
-
-    //Set board for player 2
-    else if (n === 2) {
-        //$("#board1").addClass("hide");
-        alert("Place ships, Player 2!");
-        placeShip(5);
-    }
-
-    // Set board for bot player
-    else if (n === 3) {
-        // else {
-        $("#board1").addClass("hide");
-        alert("Place ships, Bot Player!");
-        var donePlacingBot = $("<button class='donePlacingBot btn'>Done Placing Battleships</button>")
-        donePlacingBot.appendTo($("#board3"));
-
-        function botShipPlacement(shipNum) {
-            let direction = Math.floor(Math.random() * 2 + 1);
-            let spot = Math.floor(Math.random() * 120);
-
-            // if (spot <= 11 || spot % 11 === 0) {
-            //     spot = Math.floor(Math.random() * 120);
-            // }
-
-            do { 
-                spot = Math.floor(Math.random() * 120) 
-            } while (spot <= 11 || spot % 11 === 0);
-
-            console.log(`Bot turn with direction ${direction} and spot of ${spot} with a length of ${shipNum}`);
-
-            //If direction === 1, go horizontal
-            //If direction === 2, go vertical
-            placeShip(shipNum, direction, spot);
-        }
-
-        botShipPlacement(5);
-        // botShipPlacement(4);
-        // botShipPlacement(3);
-        // botShipPlacement(2);
-
-        //Don't add button like have below. Make it call the same function that will be at the end of P2 placement for blank screen
-
-        //get rid of on click. need a loop to generate math to select spots
-        $(".donePlacingBot").on("click", (function () {
-            console.log("Bot User is done placing their battleships!");
-            n++;
-            $(".donePlacingBot").addClass("hide");
-            $("#board1").removeClass("hide");
-            $("td").off("click");
-        }));
-    }
-
-
-
-    //for board 2, just place ships via the case statements (if i = x, class=isShip)
-} //this is for place ships
-
-
-//on click, make isShot go to 1, add isShot to the <td></td> cell, adjust numbers
-// look into above loop and jquery to see if you can target the specific table data cell
 
 
 //****************************END SET UP PLAYER BOARD**************************//
@@ -698,20 +688,245 @@ function placeAllShips() {
 
 
 function playerTurns() {
+    //$("#board1").addClass("hide");
+    let hitCountP1 = 0;     //Keep count of P1 hits on P2/Bot
+    let hitCountP2 = 0;     //Keep count of P2 (no /Bot because bot screen won't ever display) hits on P1
+    let turn = 1;
+    let playerTurn = 1;
+    let endTurnBtn = $("<button id='endTurnBtn' class='btn'>End Player Turn</button>");
+    let startTurnBtn = $("<button id='startBtn' class='btn'>Start Turn " + turn + ", Player " + playerTurn + "</button>");
+
+
+    if (players === 1) {
+        $("<button id='startBtn' class='btn'>Player vs Bot</button>").insertAfter($("h1"));
+    }
+    else if (players === 2) {
+        TwoPlayersP1Turn();
+    }
+
+
+    function TwoPlayersP1Turn() {
+        //let turnP1 = 1;
+        //$("<button id='startBtn' class='btn'>Start Turn " + turnP1 + ", Player 1</button>").insertAfter($("h1"));
+        startTurnBtn.insertAfter($("h1"));
+        let board2Rpt = $("#board2");
+        let board2RptTD = $("#board2 td")
+        //$("<button id='endTurnBtn' class='btn'>End Player Turn</button>");
+
+        //P1 START TURN
+        $(startTurnBtn).on("click", (function () {
+            board2Rpt.removeClass("hide");
+            board2RptTD.addClass("isShipHide");
+            //board2RptTD.addClass("isHit");
+
+            board2Rpt.prependTo($("#board1"));
+            // startTurnBtn.addClass("hide");
+            startTurnBtn.remove();
+            $("#board1").removeClass("hide");
+
+            $("<h2 class='turn canHide'>Player 1's Turn!</h2>").insertAfter($("h1"));
+
+            $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").insertAfter($(".turn"));
+            $("<h3 class='score2 canHide'>Player 2 Hit Count: " + hitCountP2 + "/14</h3>").appendTo($(".score1"));
+
+            $("<p class='placeTitle rules0 canHide'>!!!!!!!!!!!!!Rules!!!!!!!!!!!!!</p>").appendTo($(".score2"));
+            $("<p class='placeTitle rules1 canHide'>1.) Click onto the other player's board (shown on top) to attack!</p>").appendTo($(".rules0"));
+            $("<p class='placeTitle rules2 canHide'>2.) White denotes a miss - Red denotes a hit</p>").appendTo($(".rules1"));
+
+            //createEndTurnBtn();
+        }));
+
+        // function createEndTurnBtn(){
+        //     $("<button id='endTurnBtn' class='btn'>End Turn Player 1</button>").insertAfter($(".rules2"));
+        // }
+
+        //$("<button id='endTurnBtn' class='btn'>End Turn Player 1</button>").insertAfter($(".rules2"));
+
+        $(board2RptTD).on("click", (function () {
+            if ($(this).hasClass("isShip")) {
+                $(this, "#board2").addClass("isHit");
+                hitCountP1++;
+                //$(".score1").replaceWith($("<h3 class='score canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>"));          //fix, replaces all of rules and above
+                if (hitCountP1 === 14) {
+                    //call win screen
+                }
+            }
+            else {
+                $(this, "#board2").addClass("isMiss");
+            }
+
+            $("td").off("click");
+            //$("<button id='endTurnBtn' class='btn'>End Turn Player 1</button>").insertAfter($(".rules2"));
+            endTurnBtn.insertAfter($(".rules2"));
+        }));
+
+        $(endTurnBtn).on("click", (function () {
+            // board2Rpt.addClass("hide");
+            // endTurnBtn.addClass("hide");
+            // $("#board1").addClass("hide");
+            // $(".canHide").addClass("hide");
+            board2Rpt.remove();
+            endTurnBtn.remove();
+            $("#board1").remove();
+            $(".canHide").remove();
+            //turnP1++;
+            //**************playerTurn++;
+            startTurnBtn.removeClass("hide");
+            TwoPlayersP2Turn();
+            //console.log("End Turn Button was clicked!");
+        }));
+    }
+
+
+
+
+    function TwoPlayersP2Turn() {
+        //let turnP1 = 1;
+        //$("<button id='startBtn' class='btn'>Start Turn " + turnP1 + ", Player 1</button>").insertAfter($("h1"));
+        let board1Rpt = $("#board1");
+        let board1RptTD = $("#board1 td");
+        startTurnBtn.removeClass("hide");
+        startTurnBtn.insertAfter($("h1"));
+        //$("<button id='endTurnBtn' class='btn'>End Player Turn</button>");
+
+        //P1 START TURN
+        startTurnBtn.on("click", (function () {
+            board1Rpt.removeClass("hide");
+            board1RptTD.addClass("isShipHide");
+            //board2RptTD.addClass("isHit");
+
+            board1Rpt.prependTo($("#board2"));
+            startTurnBtn.addClass("hide");
+            $("#board2").removeClass("hide");
+
+            $("<h2 class='turn canHide'>Player 2's Turn!</h2>").insertAfter($("h1"));
+
+            $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").insertAfter($(".turn"));
+            $("<h3 class='score2 canHide'>Player 2 Hit Count: " + hitCountP2 + "/14</h3>").appendTo($(".score1"));
+
+            $("<p class='placeTitle rules0 canHide'>!!!!!!!!!!!!!Rules!!!!!!!!!!!!!</p>").appendTo($(".score2"));
+            $("<p class='placeTitle rules1 canHide'>1.) Click onto the other player's board (shown on top) to attack!</p>").appendTo($(".rules0"));
+            $("<p class='placeTitle rules2 canHide'>2.) White denotes a miss - Red denotes a hit</p>").appendTo($(".rules1"));
+
+            //createEndTurnBtn();
+        }));
+
+        // function createEndTurnBtn(){
+        //     $("<button id='endTurnBtn' class='btn'>End Turn Player 1</button>").insertAfter($(".rules2"));
+        // }
+
+        //$("<button id='endTurnBtn' class='btn'>End Turn Player 1</button>").insertAfter($(".rules2"));
+
+        board1RptTD.on("click", (function () {
+            if ($(this).hasClass("isShip")) {
+                $(this, "#board1").addClass("isHit");
+                hitCountP2++;
+                //$(".score1").replaceWith($("<h3 class='score canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>"));          //fix, replaces all of rules and above
+                if (hitCountP2 === 14) {
+                    //call win screen
+                }
+            }
+            else {
+                $(this, "#board1").addClass("isMiss");
+            }
+
+            $("td").off("click");
+            //$("<button id='endTurnBtn' class='btn'>End Turn Player 1</button>").insertAfter($(".rules2"));
+            endTurnBtn.insertAfter($(".rules2"));
+        }));
+
+        endTurnBtn.on("click", (function () {
+            board1Rpt.addClass("hide");
+            endTurnBtn.addClass("hide");
+            $("#board2").addClass("hide");
+            $(".canHide").addClass("hide");
+            //turnP1++;
+            //***************playerTurn--;
+            TwoPlayersP1Turn();
+            //console.log("End Turn Button was clicked!");
+        }));
+    }
+
+
+
+    // function TwoPlayersP2Turn() {
+    //     //let turnP2 = 1;
+    //     //$("<button id='startBtn' class='btn'>Start Turn " + turnP2 + ", Player 2</button>").insertAfter($("h1"));
+    //     let board1Rpt = $("#board1");
+    //     let board1RptTD = $("#board1 td")
+
+    //     //P2 START TURN
+    //     $(startTurnBtn).on("click", (function () {
+    //         $(board1Rpt).removeClass("hide");
+    //         board1RptTD.addClass("isShipHide");
+
+    //         $(endTurnBtn).removeClass("hide");
+    //         $("#board1").removeClass("hide");
+    //         $(".canHide").removeClass("hide");
+    //         //board2RptTD.addClass("isHit");
+
+    //         board1Rpt.prependTo($("#board2"));
+    //         $(startTurnBtn).addClass("hide");
+    //         $("#board2").removeClass("hide");
+
+    //         $("<h2 class='turn canHide'>Player 2's Turn!</h2>").insertAfter($("h1"));
+
+    //         $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").insertAfter($(".turn"));
+    //         $("<h3 class='score2 canHide'>Player 2 Hit Count: " + hitCountP2 + "/14</h3>").appendTo($(".score1"));
+
+    //         $("<p class='placeTitle rules0 canHide'>!!!!!!!!!!!!!Rules!!!!!!!!!!!!!</p>").appendTo($(".score2"));
+    //         $("<p class='placeTitle rules1 canHide'>1.) Click onto the other player's board (shown on top) to attack!</p>").appendTo($(".rules0"));
+    //         $("<p class='placeTitle rules2 canHide'>2.) White denotes a miss - Red denotes a hit</p>").appendTo($(".rules1"));
+
+    //         //createEndTurnBtn();
+    //     }));
+
+    //     // function createEndTurnBtn(){
+    //     //     $("<button id='endTurnBtn' class='btn'>End Turn Player 1</button>").insertAfter($(".rules2"));
+    //     // }
+
+    //     //$("<button id='endTurnBtn' class='btn'>End Turn Player 1</button>").insertAfter($(".rules2"));
+
+    //     $(board1RptTD).on("click", (function () {
+    //         if ($(this).hasClass("isShip")) {
+    //             $(this, "#board1").addClass("isHit");
+    //             hitCountP2++;
+    //             //$(".score1").replaceWith($("<h3 class='score canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>"));          //fix, replaces all of rules and above
+    //             if (hitCountP2 === 14) {
+    //                 //call win screen
+    //             }
+    //         }
+    //         else {
+    //             $(this, "#board1").addClass("isMiss");
+    //         }
+
+    //         $("td").off("click");
+    //         //$("<button id='endTurnBtn' class='btn'>End Turn Player 1</button>").insertAfter($(".rules2"));
+    //         $(endTurnBtn).insertAfter($(".rules2"));
+    //     }));
+
+    //     $(endTurnBtn).on("click", (function () {
+    //         $(board1Rpt).addClass("hide");
+    //         $("#board2").addClass("hide");
+    //         $(".canHide").addClass("hide");
+    //         //turnP2++;
+    //         turn++;
+    //         playerTurn--;
+    //         TwoPlayersP1Turn();
+    //         //console.log("End Turn Button was clicked!");
+    //     }));
+    // }
+
+
+
 
 }
 
 
 
+//on click, make isShot go to 1, add isShot to the <td></td> cell, adjust numbers
+// look into above loop and jquery to see if you can target the specific table data cell
 
-
-
-
-
-//LOOKING LIKE I MIGHT HAVE TO DO ALL THE INITIALIZING OF ADDING A CLASS UP ABOVE IN THE CREATION???
-// Keep note that both player boards will be the same right now. Maybe create a function for the
-        //board creation process and then create 2 different variables with it? ex: board1 =, board2 =
-//Find a way to use object properties as a way of assigning a class to that data cell <td></td>
 
 
 // 1.) isShip starts at 1 if a ship is there. When isShot goes to 1 (on click),
@@ -719,12 +934,6 @@ function playerTurns() {
 // 2.) Don't allow location to be shot at again if isShot = 1
 
 
-// Ships can be placed horizontal 0-9 (10-19, 20-29, etc.) but not 9 into 0-8 (ex: 19 into 22)
-// Ships can be placed vertical at increments of 10 (0, 10, 20) (ex: 27, 37, and 47)
-
-
 //TO DO STILL:
 // 1.) Add rules list at top
-// 2.) Add play button to start
-// 3.) Add forfeit button (turns all object numbers to 1 to reveal board)
-// 4.) Add headers to the array (A-J and 1-10)
+// 2.) Add forfeit button (turns all object numbers to 1 to reveal board)

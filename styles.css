@@ -138,7 +138,7 @@ flex-direction: row;
     align-items: center;
     margin: auto; */
     /* flex-wrap: wrap; */
-    padding-bottom: 200px;
+    padding-bottom: 100px;
 
 }
 
@@ -155,8 +155,26 @@ flex-direction: row;
     background-color: yellow;
 }
 
+.turn{
+    color: white;
+}
+
+.score{
+    font-size: 1.75rem;
+    padding-bottom: 25px;
+}
+
 .isShip{
-    background-color: #0077ff;
+    /* background-color: #0077ff; */
+    background-color: #4e4e4e;
+}
+
+.isShipHide{
+    background-color: rgb(63, 194, 255);
+}
+
+.isMiss{
+    background-color: white;
 }
 
 .isHit{
