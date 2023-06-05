@@ -20,6 +20,14 @@ h2 {
     width: 80%;
     text-align: center;
     font-size: 2.5rem;
+    /* padding: 25px 0px; */
+    margin: auto;
+}
+
+h3 {
+    width: 80%;
+    text-align: center;
+    font-size: 1.5rem;
     padding: 25px 0px;
     margin: auto;
 }
@@ -36,7 +44,7 @@ button{
 
 table {
     /* width was previously 80% with th/tr/td padding of 25px */
-    width: 50%;
+    width: 80%;
     border: 1px solid;
     border-collapse: collapse;
     table-layout: fixed;
@@ -146,14 +154,6 @@ flex-direction: row;
     display: none;
 }
 
-.isShot{
-    /* 
-    take away td:hover
-    take away ability to click again
-    maybe add permanent background color?
-    */
-    background-color: yellow;
-}
 
 .turn{
     color: white;
@@ -179,6 +179,35 @@ flex-direction: row;
 
 .isHit{
     background-color: red;
+}
+
+/* h2 {
+    width: 80%;
+    text-align: center;
+    font-size: 2.5rem;
+    margin: auto;
+}
+
+h3 {
+    width: 80%;
+    text-align: center;
+    font-size: 1.5rem;
+    padding: 25px 0px;
+    margin: auto;
+} */
+
+.score1, .score2 {
+    padding-bottom: 10px;
+    color: red;
+}
+
+.rules0, .rules1, .rules2 {
+    /* font-size: 25px;
+    margin: auto;
+    text-align: center; */
+    padding: 10px 0px;
+    font-weight: 900;
+    color:rgb(255, 255, 255);
 }
 
 

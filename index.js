@@ -110,9 +110,9 @@ function createBoard(board) {
 
     //table to make a new row at every 10 spot (11 per row) and insert 11 data cells
     if (n === 1 || n === 2) {
-        var tableTitle = $("<h2 class='playerTitle'>Player " + n + " Board</h2>")
+        var tableTitle = $("<h3 class='playerTitle'>Player " + n + " Board</h3>")
     }
-    else { var tableTitle = $("<h2>Bot Player Board</h2>") }
+    else { var tableTitle = $("<h3>Bot Player Board</h3>") }
 
     // var tableTitle = $("<h2>Player " + n + "</h2>")
     var table = $("<table></table>");
@@ -706,15 +706,15 @@ function playerTurns() {
     let playerNum = 0;     //Keeps track of which player is going
     let endTurnBtn = $("<button id='endTurnBtn' class='btn'>End Player Turn</button>");
     let startTurnBtn = $("<button id='startBtn' class='btn'>Start Turn " + turn + ", Player " + playerNum + "</button>");
-    $("#board1").prependTo($("#board2"));
+    //$("#board1").prependTo($("#board2"));
 
     if (players === 1) {
         $("<button id='startBtn' class='btn'>Player vs Bot</button>").insertAfter($("h1"));
     }
     else if (players === 2) {
         startTurnBtn.insertAfter($("h1"));
-        endTurnBtn.insertAfter($("h1"));
-        endTurnBtn.addClass("hide");
+        //endTurnBtn.insertAfter($("h1"));
+        //endTurnBtn.addClass("hide");
         TwoPlayersP1Turn();
     }
 
@@ -729,7 +729,7 @@ function playerTurns() {
 
             $("#board1").removeClass("hide");
             $("#board2").removeClass("hide");
-            $("#board1 td").off("click");
+            //$("#board1 td").off("click");
 
             if ($("#board2 td").hasClass("isShip")) {
                 $("#board2 td").addClass("isShipHide");
@@ -737,17 +737,25 @@ function playerTurns() {
 
             $("#board1 td").removeClass("isShipHide");
 
-            if (turn === 1) {
-                $("<h2 class='turn canHide'>Player " + playerNum + "'s Turn!</h2>").insertAfter($("h1"));
-                $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").insertAfter($(".turn"));
-                $("<h3 class='score2 canHide'>Player 2 Hit Count: " + hitCountP2 + "/14</h3>").appendTo($(".score1"));
-                $("<p class='placeTitle rules0 canHide'>!!!!!!!!!!!!!Rules!!!!!!!!!!!!!</p>").appendTo($(".score2"));
-                $("<p class='placeTitle rules1 canHide'>1.) Click onto the other player's board (shown on top) to attack!</p>").appendTo($(".rules0"));
-                $("<p class='placeTitle rules2 canHide'>2.) White denotes a miss - Red denotes a hit</p>").appendTo($(".rules1"));
-            }
-            else {
-                $(".canHide").removeClass("hide");
-            }
+            // if (turn === 1) {
+            //     $("<h2 class='turn canHide'>Player " + playerNum + "'s Turn!</h2>").insertAfter($("h1"));
+            //     $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").insertAfter($("h2"));
+            //     $("<h3 class='score2 canHide'>Player 2 Hit Count: " + hitCountP2 + "/14</h3>").appendTo($(".score1"));
+            //     $("<p class='placeTitle rules0 canHide'>!!!!!!!!!!!!!Rules!!!!!!!!!!!!!</p>").insertAfter($(".score1"));
+            //     $("<p class='placeTitle rules1 canHide'>1.) Click onto the other player's board (shown on top) to attack!</p>").appendTo($(".rules0"));
+            //     $("<p class='placeTitle rules2 canHide'>2.) White denotes a miss - Red denotes a hit</p>").appendTo($(".rules1"));
+            // }
+            // else {
+            //     $(".canHide").removeClass("hide");
+            // }
+
+            // $("<h2 class='turn canHide'>Player " + playerNum + "'s Turn!</h2>").insertAfter($("h1"));
+            // $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").insertAfter($("h2"));
+            // $("<h3 class='score2 canHide'>Player 2 Hit Count: " + hitCountP2 + "/14</h3>").appendTo($(".score1"));
+            // $("<p class='placeTitle rules0 canHide'>!!!!!!!!!!!!!Rules!!!!!!!!!!!!!</p>").insertAfter($(".score1"));
+            // $("<p class='placeTitle rules1 canHide'>1.) Click onto the other player's board (shown on top) to attack!</p>").appendTo($(".rules0"));
+            // $("<p class='placeTitle rules2 canHide'>2.) White denotes a miss - Red denotes a hit</p>").appendTo($(".rules1"));
+
 
         }));
 
@@ -755,10 +763,13 @@ function playerTurns() {
             if ($(this).hasClass("isShip")) {
                 $(this).addClass("isHit");
                 $(this).removeClass("isShip");
+                $(this).removeClass("isShipHide");
                 hitCountP1++;
+                // $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").appendTo($(".turn"));
+                // $(".score1").addClass("hide");
                 //$(".score1").replaceWith($("<h3 class='score canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>"));          //fix, replaces all of rules and above
                 if (hitCountP1 === 14) {
-                    //call win screen
+                    alert("Player 1 has won!");
                 }
             }
             else {
@@ -766,18 +777,23 @@ function playerTurns() {
             }
 
             $("#board2 td").off("click");
-            endTurnBtn.removeClass("hide");
+            endTurnBtn.insertAfter($("h1"));
+            //endTurnBtn.removeClass("hide");
         }));
 
         endTurnBtn.on("click", (function () {
             $("#board1").addClass("hide");
             $("#board2").addClass("hide");
-            endTurnBtn.addClass("hide");
+            //endTurnBtn.addClass("hide");
+
             //$("#board2").appendTo($("#board1"));
             //$("#board1").addClass("hide");
-            $(".canHide").addClass("hide");
+
+            //$(".canHide").addClass("hide");
+            //$(".canHide").remove();
+
             // board2Rpt.remove();
-            // endTurnBtn.remove();
+            endTurnBtn.remove();
             // $("#board1").remove();
             //$(".canHide").remove();
 
@@ -800,7 +816,7 @@ function playerTurns() {
 
             $("#board1").removeClass("hide");
             $("#board2").removeClass("hide");
-            $("#board2 td").off("click");
+            //$("#board2 td").off("click");
 
             if ($("#board1 td").hasClass("isShip")) {
                 $("#board1 td").addClass("isShipHide");
@@ -808,24 +824,14 @@ function playerTurns() {
 
             $("#board2 td").removeClass("isShipHide");
 
-            // if (turn === 1) {
-            //     $("<h2 class='turn canHide'>Player " + playerNum + "'s Turn!</h2>").insertAfter($("h1"));
-            //     $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").insertAfter($(".turn"));
-            //     $("<h3 class='score2 canHide'>Player 2 Hit Count: " + hitCountP2 + "/14</h3>").appendTo($(".score1"));
-            //     $("<p class='placeTitle rules0 canHide'>!!!!!!!!!!!!!Rules!!!!!!!!!!!!!</p>").appendTo($(".score2"));
-            //     $("<p class='placeTitle rules1 canHide'>1.) Click onto the other player's board (shown on top) to attack!</p>").appendTo($(".rules0"));
-            //     $("<p class='placeTitle rules2 canHide'>2.) White denotes a miss - Red denotes a hit</p>").appendTo($(".rules1"));
-            // }
-            // else {
-            //$(".canHide").removeClass("hide");
-            //}
 
-            // $("<h2 class='turn canHide'>Player 2's Turn!</h2>").insertAfter($("h1"));
-            // $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").insertAfter($(".turn"));
+            // $("<h2 class='turn canHide'>Player " + playerNum + "'s Turn!</h2>").insertAfter($("h1"));
+            // $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").insertAfter($("h2"));
             // $("<h3 class='score2 canHide'>Player 2 Hit Count: " + hitCountP2 + "/14</h3>").appendTo($(".score1"));
-            // $("<p class='placeTitle rules0 canHide'>!!!!!!!!!!!!!Rules!!!!!!!!!!!!!</p>").appendTo($(".score2"));
+            // $("<p class='placeTitle rules0 canHide'>!!!!!!!!!!!!!Rules!!!!!!!!!!!!!</p>").insertAfter($(".score1"));
             // $("<p class='placeTitle rules1 canHide'>1.) Click onto the other player's board (shown on top) to attack!</p>").appendTo($(".rules0"));
             // $("<p class='placeTitle rules2 canHide'>2.) White denotes a miss - Red denotes a hit</p>").appendTo($(".rules1"));
+
         }));
 
 
@@ -834,27 +840,35 @@ function playerTurns() {
             if ($(this).hasClass("isShip")) {
                 $(this).addClass("isHit");
                 $(this).removeClass("isShip");
+                $(this).removeClass("isShipHide");
                 hitCountP2++;
+                // $("<h3 class='score2 canHide'>Player 2 Hit Count: " + hitCountP2 + "/14</h3>").appendTo($(".score1"));
+                // $(".score2").addClass("hide");
                 //$(".score1").replaceWith($("<h3 class='score canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>"));          //fix, replaces all of rules and above
                 if (hitCountP2 === 14) {
-                    //call win screen
+                    alert("Player 2 has won!");
                 }
             }
             else {
                 $(this).addClass("isMiss");
             }
 
-            $("td").off("click");
-            endTurnBtn.removeClass("hide");
+            $("#board1 td").off("click");
+            endTurnBtn.insertAfter($("h1"));
+            //endTurnBtn.removeClass("hide");
         }));
 
         endTurnBtn.on("click", (function () {
             $("#board1").addClass("hide");
             $("#board2").addClass("hide");
-            endTurnBtn.addClass("hide");
+            //endTurnBtn.addClass("hide");
             //$("#board1").detach();
             //$("#board1").appendTo($("#board2"));
-            $(".canHide").addClass("hide");
+
+            //$(".canHide").addClass("hide");
+            $(".canHide").remove();
+            endTurnBtn.remove();
+
             //board1Rpt.detach($("#board2"));
             //board2Rpt.detach();
             // $(".canHide").addClass("hide");
