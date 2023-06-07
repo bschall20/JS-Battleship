@@ -125,7 +125,7 @@ function createBoard(board) {
         if (i % 11 === 0 || (0 <= i && i <= 10)) {
             row.append($("<th></th>").html(board[i].cellFill));
         }
-        else { row.append($("<td id=" + (i) + "></td>").html(board[i].location)); }     //change .location back to .cellFill for blank board!
+        else { row.append($("<td id=" + (i) + "></td>").html(board[i].cellFill)); }     //change .location back to .cellFill for blank board!
         table.append(row);
     }
 

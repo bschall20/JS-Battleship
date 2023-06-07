@@ -6,14 +6,14 @@
     font-size: 1rem;
 }
 
-body{
+body {
     text-align: center;
 }
 
 h1 {
-margin: 50px auto;
-text-align: center;
-font-size: 5rem;
+    margin: 50px auto;
+    text-align: center;
+    font-size: 5rem;
 }
 
 h2 {
@@ -32,7 +32,7 @@ h3 {
     margin: auto;
 }
 
-button{
+button {
     background-color: rgb(0, 238, 255);
     border: 1px solid black;
     border-radius: 10%;
@@ -51,12 +51,14 @@ table {
     empty-cells: show;
     flex-direction: column;
     margin: auto;
-    border-top: none;
-    border-left: none;
+    /* border-top: none;
+    border-left: none; */
 }
 
 th, tr, td {
     border: 1px solid;
+    /* border-top: none;
+    border-left: none; */
     text-align: center;
     padding: 10px;
     background-color: rgb(63, 194, 255);
@@ -65,11 +67,11 @@ th, tr, td {
 
 }
 
-#onePlayer, #twoPlayer {
-    margin: auto 150px;
+#onePlayer, #twoPlayer, #startBtn, #endTurnBtn {
+    margin: 15px 150px;
 }
 
-#board1 td:hover, #board2 td:hover, #board3 td:hover{
+#board1 td:hover, #board2 td:hover {
     background-color: #00ff22;
     cursor: pointer;
 }
@@ -90,21 +92,21 @@ th, tr, td {
     font-size: 60px;
     padding: 15px 40px 15px 40px;
     text-decoration: none;
-  }
-  
-  .btn:hover {
+}
+
+.btn:hover {
     background: #3cb0fd;
     background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
     background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
     background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
     background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
     background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
-    box-shadow: 0 0.5em 0.5em -0.4em  #3cb0fd;
+    box-shadow: 0 0.5em 0.5em -0.4em #3cb0fd;
     text-decoration: none;
     transform: translateY(-0.25em);
-  }
+}
 
-.donePlacingP1, .donePlacingP2, .donePlacingBot { 
+.donePlacingP1, .donePlacingP2, .donePlacingBot {
     display: block;
     margin: 25px auto;
 }
@@ -135,9 +137,9 @@ th, tr, td {
 
 
 .gameField {
-display: flex;
-flex-direction: row;
-/* flex-wrap: wrap; */
+    display: flex;
+    flex-direction: row;
+    /* flex-wrap: wrap; */
 }
 
 .board {
@@ -155,46 +157,31 @@ flex-direction: row;
 }
 
 
-.turn{
+.turn {
     color: white;
 }
 
-.score{
+.score {
     font-size: 1.75rem;
     padding-bottom: 25px;
 }
 
-.isShip{
+.isShip {
     /* background-color: #0077ff; */
     background-color: #4e4e4e;
 }
 
-.isShipHide{
+.isShipHide {
     background-color: rgb(63, 194, 255);
 }
 
-.isMiss{
+.isMiss {
     background-color: white;
 }
 
-.isHit{
+.isHit {
     background-color: red;
 }
-
-/* h2 {
-    width: 80%;
-    text-align: center;
-    font-size: 2.5rem;
-    margin: auto;
-}
-
-h3 {
-    width: 80%;
-    text-align: center;
-    font-size: 1.5rem;
-    padding: 25px 0px;
-    margin: auto;
-} */
 
 .score1, .score2 {
     padding-bottom: 10px;
@@ -207,12 +194,42 @@ h3 {
     text-align: center; */
     padding: 10px 0px;
     font-weight: 900;
-    color:rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
 }
 
 
 @media only screen and (max-width: 1024px) {
+
     .gameField {
         flex-direction: column;
     }
+
+    .donePlacingP1, .donePlacingP2, .donePlacingBot {
+        font-size: 25px;
+        margin: 10px auto;
+    }
+
+    .vhTitle, .placeTitle {
+        font-size: 25px;
+        margin: auto;
+        padding: 25px 0px;
+        text-align: center;
+    }
+
+    #startBtn, #endTurnBtn {
+        padding: 20px 50px;
+        font-size: 25px;
+    }
+}
+
+@media only screen and (max-width: 604px) {
+
+    #onePlayer, #twoPlayer {
+        margin: 15px auto;
+    }
+
+    #startBtn, #endTurnBtn {
+        font-size: 15px;
+    }
+
 }
