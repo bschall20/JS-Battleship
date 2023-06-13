@@ -16,6 +16,7 @@ function choosePlayers() {
 
 
     function create() {
+        $("h1").addClass("h1Start");
         $("#onePlayer").addClass("hide");
         $("#twoPlayer").addClass("hide");
         createBoard(board1);
@@ -397,6 +398,7 @@ function placeAllShips() {
                 place(slotID);
             }))
             if (n === 3) {
+                //Have to turn into string to allow ship to adhere to boundary placement
                 let spotStr = spot.toString();
                 place(spotStr);
             }
@@ -688,38 +690,134 @@ function placeAllShips() {
 
 
 function playerTurns() {
-
-    //let board1Rpt = $("#board1");       //Duplicate board for hidden display
-    //let board1RptTD = $("#board1 td");  //Duplicate board for hidden td display
-    //board1Rpt.prependTo($("#board2"));
-    //board1RptTD.addClass("isShipHide");
-
-    //let board2Rpt = $("#board2");       //Duplicate board for hidden display
-    //let board2RptTD = $("#board2 td");  //Duplicate board for hidden td display
-    //board2Rpt.prependTo($("#board1"));
-    //board2RptTD.addClass("isShipHide");
-
-
     let hitCountP1 = 0;     //Keep count of P1 hits on P2/Bot
-    let hitCountP2 = 0;     //Keep count of P2 (no /Bot because bot screen won't ever display) hits on P1
+    let hitCountP2 = 0;     //Keep count of P2 hits on P1
+    let hitCountBot = 0;    //Keep count of Bot hits on P1
     let turn = 1;           //Keeps track of turn number
     let playerNum = 0;     //Keeps track of which player is going
     let endTurnBtn = $("<button id='endTurnBtn' class='btn'>End Player Turn</button>");
     let startTurnBtn = $("<button id='startBtn' class='btn'>Start Turn " + turn + ", Player " + playerNum + "</button>");
-    //$("#board1").prependTo($("#board2"));
+
     $("#gameFieldID").addClass("boardPlay");
+
 
     if (players === 1) {
         $("<button id='startBtn' class='btn'>Player vs Bot</button>").insertAfter($("h1"));
+        playerTurnVsBot();
     }
     else if (players === 2) {
         startTurnBtn.insertAfter($("h1"));
-        //endTurnBtn.insertAfter($("h1"));
-        //endTurnBtn.addClass("hide");
         TwoPlayersP1Turn();
     }
 
 
+    //*********************1 PLAYER TURNS*******************//
+    function playerTurnVsBot() {
+        playerNum = 1;
+
+        //P1 START TURN
+        $("#startBtn").on("click", (function () {
+
+            $("#startBtn").addClass("hide");
+
+            $("#board1").removeClass("hide");
+            $("#board3").removeClass("hide");
+
+            if ($("#board3 td").hasClass("isShip")) {
+                $("#board3 td").addClass("isShipHide");
+            }
+
+            $("#board1 td").removeClass("isShipHide");
+        }));
+
+        $("#board3 td").on("click", (function () {
+            if ($(this).hasClass("isShip")) {
+                $(this).addClass("isHit");
+                $(this).removeClass("isShip");
+                $(this).removeClass("isShipHide");
+                hitCountP1++;
+                // $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").appendTo($(".turn"));
+                // $(".score1").addClass("hide");
+                //$(".score1").replaceWith($("<h3 class='score canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>"));          //fix, replaces all of rules and above
+                if (hitCountP1 === 1) {
+                    alert("Player 1 has won!");
+                    endTurnBtn.remove();
+                    endGameScreen(playerNum);
+                }
+            }
+            else {
+                $(this).addClass("isMiss");
+                endTurnBtn.insertAfter($("h1"));
+            }
+
+            $("#board3 td").off("click");
+            // endTurnBtn.insertAfter($("h1"));
+        }));
+
+        endTurnBtn.on("click", (function () {
+            // $("#board1").addClass("hide");
+            // $("#board2").addClass("hide");
+
+            endTurnBtn.remove();
+            console.log("End Turn Pressed");
+            botTurnVsPlayer();
+        }));
+    }
+
+    function botTurnVsPlayer() {
+
+        // function botShipPlacement(shipNum) {
+        //     //If direction === 1, go horizontal
+        //     //If direction === 2, go vertical
+        //     let direction = Math.floor(Math.random() * 2 + 1);
+        //     let spot = Math.floor(Math.random() * 120);
+
+        //     do {
+        //         spot = Math.floor(Math.random() * 120)
+        //     } while (spot <= 11 || spot % 11 === 0);
+
+        //     console.log(`Bot turn with direction ${direction} and spot of ${spot} with a length of ${shipNum}`);
+        //     placeShip(shipNum, direction, spot);
+        // }
+        // botShipPlacement(5);
+        playerNum = "Bot";
+        let shotTrack = [];
+        let shotTrackHit = [];
+        let shot = Math.floor(Math.random() * 120);
+
+        //Reroll spot shot if it lands on table header
+        do {
+            shot = Math.floor(Math.random() * 120)
+        } while (shot <= 11 || shot % 11 === 0 || shotTrack.includes(shot));
+
+        shotTrack.push(shot);
+        let shotStr = shot.toString();
+        console.log(`Shot from Bot = ${shot}`);
+
+        if ($(`#board1 #${shotStr}`).hasClass("isShip")) {
+            $(`#board1 #${shotStr}`).addClass("isHit");
+            $(`#board1 #${shotStr}`).removeClass("isShip");
+            $(`#board1 #${shotStr}`).removeClass("isShipHide");
+            shotTrackHit.push(shot);
+            hitCountBot++;
+            // $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").appendTo($(".turn"));
+            // $(".score1").addClass("hide");
+            //$(".score1").replaceWith($("<h3 class='score canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>"));          //fix, replaces all of rules and above
+            if (hitCountBot === 1) {
+                alert("Bot Player has won!");
+                endTurnBtn.remove();
+                endGameScreen(playerNum);
+            }
+        }
+        else {
+            $(`#board1 #${shotStr}`).addClass("isMiss");
+        }
+
+        playerTurnVsBot();
+    }
+
+
+    //*********************2 PLAYER, PLAYER 1 TURN*******************//
     function TwoPlayersP1Turn() {
         playerNum = 1;
 
@@ -768,36 +866,26 @@ function playerTurns() {
                 hitCountP1++;
                 // $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").appendTo($(".turn"));
                 // $(".score1").addClass("hide");
-                //$(".score1").replaceWith($("<h3 class='score canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>"));          //fix, replaces all of rules and above
-                if (hitCountP1 === 14) {
+                //$(".score1").replaceWith($("<h3 class='score canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>"));        //fix, replaces all of rules and above
+                if (hitCountP1 === 1) {
                     alert("Player 1 has won!");
+                    endTurnBtn.remove();
+                    endGameScreen(playerNum);
                 }
             }
             else {
                 $(this).addClass("isMiss");
+                endTurnBtn.insertAfter($("h1"));
             }
 
             $("#board2 td").off("click");
-            endTurnBtn.insertAfter($("h1"));
-            //endTurnBtn.removeClass("hide");
+            //endTurnBtn.insertAfter($("h1"));
         }));
 
         endTurnBtn.on("click", (function () {
             $("#board1").addClass("hide");
             $("#board2").addClass("hide");
-            //endTurnBtn.addClass("hide");
-
-            //$("#board2").appendTo($("#board1"));
-            //$("#board1").addClass("hide");
-
-            //$(".canHide").addClass("hide");
-            //$(".canHide").remove();
-
-            // board2Rpt.remove();
             endTurnBtn.remove();
-            // $("#board1").remove();
-            //$(".canHide").remove();
-
             console.log("End Turn Pressed");
             startTurnBtn.removeClass("hide");
             TwoPlayersP2Turn();
@@ -806,7 +894,7 @@ function playerTurns() {
 
 
 
-
+    //*********************2 PLAYER, PLAYER 2 TURN*******************//
     function TwoPlayersP2Turn() {
         playerNum = 2;
 
@@ -817,7 +905,6 @@ function playerTurns() {
 
             $("#board1").removeClass("hide");
             $("#board2").removeClass("hide");
-            //$("#board2 td").off("click");
 
             if ($("#board1 td").hasClass("isShip")) {
                 $("#board1 td").addClass("isShipHide");
@@ -843,120 +930,65 @@ function playerTurns() {
                 $(this).removeClass("isShip");
                 $(this).removeClass("isShipHide");
                 hitCountP2++;
-                // $("<h3 class='score2 canHide'>Player 2 Hit Count: " + hitCountP2 + "/14</h3>").appendTo($(".score1"));
-                // $(".score2").addClass("hide");
-                //$(".score1").replaceWith($("<h3 class='score canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>"));          //fix, replaces all of rules and above
-                if (hitCountP2 === 14) {
+
+                if (hitCountP2 === 1) {
                     alert("Player 2 has won!");
+                    endTurnBtn.remove();
+                    endGameScreen(playerNum);
                 }
             }
             else {
                 $(this).addClass("isMiss");
+                endTurnBtn.insertAfter($("h1"));
             }
 
             $("#board1 td").off("click");
-            endTurnBtn.insertAfter($("h1"));
-            //endTurnBtn.removeClass("hide");
+            // endTurnBtn.insertAfter($("h1"));
         }));
 
         endTurnBtn.on("click", (function () {
             $("#board1").addClass("hide");
             $("#board2").addClass("hide");
-            //endTurnBtn.addClass("hide");
-            //$("#board1").detach();
-            //$("#board1").appendTo($("#board2"));
-
-            //$(".canHide").addClass("hide");
             $(".canHide").remove();
             endTurnBtn.remove();
-
-            //board1Rpt.detach($("#board2"));
-            //board2Rpt.detach();
-            // $(".canHide").addClass("hide");
-            // board1Rpt.remove();
-            // endTurnBtn.remove();
-            // $("#board2").remove();
-            //$(".canHide").remove();
             turn++;
             console.log("End Turn Pressed");
             startTurnBtn.removeClass("hide");
             TwoPlayersP1Turn();
         }));
     }
+}
+
+
+//********************************PLAYER TURNS END*****************************//
+//                                                                             //
+//                                                                             //
+//              **       **    ********    **      **    ********              //
+//              ** **    **    **           **    **     ********              //
+//              **  **   **    **            **  **         **                 //
+//              **   **  **    ********       ****          **                 //
+//              **    ** **    **            **  **         **                 //
+//              **     ****    ***          **    **        **                 //
+//              **       **    ********    **      **       **                 //
+//                                                                             //
+//                                                                             //
+//*******************************END GAME SCREEN*******************************//
 
 
 
-    // function TwoPlayersP2Turn() {
-    //     //let turnP2 = 1;
-    //     //$("<button id='startBtn' class='btn'>Start Turn " + turnP2 + ", Player 2</button>").insertAfter($("h1"));
-    //     let board1Rpt = $("#board1");
-    //     let board1RptTD = $("#board1 td")
-
-    //     //P2 START TURN
-    //     $(startTurnBtn).on("click", (function () {
-    //         $(board1Rpt).removeClass("hide");
-    //         board1RptTD.addClass("isShipHide");
-
-    //         $(endTurnBtn).removeClass("hide");
-    //         $("#board1").removeClass("hide");
-    //         $(".canHide").removeClass("hide");
-    //         //board2RptTD.addClass("isHit");
-
-    //         board1Rpt.prependTo($("#board2"));
-    //         $(startTurnBtn).addClass("hide");
-    //         $("#board2").removeClass("hide");
-
-    //         $("<h2 class='turn canHide'>Player 2's Turn!</h2>").insertAfter($("h1"));
-
-    //         $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").insertAfter($(".turn"));
-    //         $("<h3 class='score2 canHide'>Player 2 Hit Count: " + hitCountP2 + "/14</h3>").appendTo($(".score1"));
-
-    //         $("<p class='placeTitle rules0 canHide'>!!!!!!!!!!!!!Rules!!!!!!!!!!!!!</p>").appendTo($(".score2"));
-    //         $("<p class='placeTitle rules1 canHide'>1.) Click onto the other player's board (shown on top) to attack!</p>").appendTo($(".rules0"));
-    //         $("<p class='placeTitle rules2 canHide'>2.) White denotes a miss - Red denotes a hit</p>").appendTo($(".rules1"));
-
-    //         //createEndTurnBtn();
-    //     }));
-
-    //     // function createEndTurnBtn(){
-    //     //     $("<button id='endTurnBtn' class='btn'>End Turn Player 1</button>").insertAfter($(".rules2"));
-    //     // }
-
-    //     //$("<button id='endTurnBtn' class='btn'>End Turn Player 1</button>").insertAfter($(".rules2"));
-
-    //     $(board1RptTD).on("click", (function () {
-    //         if ($(this).hasClass("isShip")) {
-    //             $(this, "#board1").addClass("isHit");
-    //             hitCountP2++;
-    //             //$(".score1").replaceWith($("<h3 class='score canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>"));          //fix, replaces all of rules and above
-    //             if (hitCountP2 === 14) {
-    //                 //call win screen
-    //             }
-    //         }
-    //         else {
-    //             $(this, "#board1").addClass("isMiss");
-    //         }
-
-    //         $("td").off("click");
-    //         //$("<button id='endTurnBtn' class='btn'>End Turn Player 1</button>").insertAfter($(".rules2"));
-    //         $(endTurnBtn).insertAfter($(".rules2"));
-    //     }));
-
-    //     $(endTurnBtn).on("click", (function () {
-    //         $(board1Rpt).addClass("hide");
-    //         $("#board2").addClass("hide");
-    //         $(".canHide").addClass("hide");
-    //         //turnP2++;
-    //         turn++;
-    //         playerTurn--;
-    //         TwoPlayersP1Turn();
-    //         //console.log("End Turn Button was clicked!");
-    //     }));
-    // }
+function endGameScreen(playerWon) {
+    $("#board1").remove();
+    $("#board2").remove();
+    $("#board3").remove();
 
 
+    $("<h2 class='endGameH'>Player " + playerWon + " Has Won!</h2>").insertAfter("h1");
+    $("<p class='endGameP'>If you enjoyed this game, feel free to restart below!</p>").insertAfter(".endGameH");
+    $("<button class='endGameBtn btn'>Restart Game!</button>").insertAfter(".endGameP");
 
-
+    $(".endGameBtn").on("click", (function () {
+        location.reload(true);
+    }));
 }
 
 
