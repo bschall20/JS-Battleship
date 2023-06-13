@@ -110,9 +110,9 @@ function createBoard(board) {
 
     //table to make a new row at every 10 spot (11 per row) and insert 11 data cells
     if (n === 1 || n === 2) {
-        var tableTitle = $("<h3 class='playerTitle'>Player " + n + " Board</h3>")
+        var tableTitle = $("<h2 class='playerTitle'>Player " + n + " Board</h2>")
     }
-    else { var tableTitle = $("<h3>Bot Player Board</h3>") }
+    else { var tableTitle = $("<h2>Bot Player Board</h2>") }
 
     // var tableTitle = $("<h2>Player " + n + "</h2>")
     var table = $("<table></table>");
@@ -292,7 +292,7 @@ function placeAllShips() {
         // }));
 
 
-        $("<h3 class='vhTitle'>Choose which way to place your ship of (" + ship + ") spots!</h3>").appendTo($("#board" + n));
+        $("<h3 class='vhTitle'>Choose which way to place your ship of (" + ship + ") spots!</h3>").insertAfter($("#board" + n));
         $("<button class='horizBtn btn'>Place ship (" + ship + ") horizontal</button>").insertAfter($(".vhTitle"));
         $("<button class='vertBtn btn'>Place ship (" + ship + ") vertical</button>").insertAfter($(".horizBtn"));
 
@@ -707,6 +707,7 @@ function playerTurns() {
     let endTurnBtn = $("<button id='endTurnBtn' class='btn'>End Player Turn</button>");
     let startTurnBtn = $("<button id='startBtn' class='btn'>Start Turn " + turn + ", Player " + playerNum + "</button>");
     //$("#board1").prependTo($("#board2"));
+    $("#gameFieldID").addClass("boardPlay");
 
     if (players === 1) {
         $("<button id='startBtn' class='btn'>Player vs Bot</button>").insertAfter($("h1"));
