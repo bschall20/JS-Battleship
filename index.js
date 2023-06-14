@@ -231,7 +231,10 @@ function placeAllShips() {
                 $(".donePlacingP1").on("click", (function () {
                     console.log("User 1 is done placing their battleships!");
                     if (players === 1) { n += 2 }
-                    else { n++ };
+                    else {
+                        n++;
+                        $("h1").removeClass("h1Start");
+                    };
                     createBoard(board2);
                     $(".donePlacingP1").addClass("hide");
                     $("#board1").addClass("hide");      //hides board one after click. taken from n===2 section "Set board for player 2"
@@ -243,6 +246,7 @@ function placeAllShips() {
                 var donePlacingP2 = $("<button class='donePlacingP2 btn'>Done Placing Battleships</button>")
                 donePlacingP2.appendTo($("#board2"));
                 $(".donePlacingP2").on("click", (function () {
+                    $("h1").removeClass("h1Start");
                     console.log("User 2 is done placing their battleships!");
                     n += 2;
                     //Call player 1 to play.
@@ -269,6 +273,7 @@ function placeAllShips() {
 
                 //get rid of on click. need a loop to generate math to select spots
                 $(".donePlacingBot").on("click", (function () {
+                    $("h1").removeClass("h1Start");
                     console.log("Bot User is done placing their battleships!");
                     n++;
                     $(".donePlacingBot").addClass("hide");
@@ -700,6 +705,7 @@ function playerTurns() {
 
     $("#gameFieldID").addClass("boardPlay");
 
+    $("h1").removeClass("h1Start");
 
     if (players === 1) {
         $("<button id='startBtn' class='btn'>Player vs Bot</button>").insertAfter($("h1"));
@@ -717,7 +723,7 @@ function playerTurns() {
 
         //P1 START TURN
         $("#startBtn").on("click", (function () {
-
+            $("h1").addClass("h1Start");
             $("#startBtn").addClass("hide");
 
             $("#board1").removeClass("hide");
@@ -757,7 +763,7 @@ function playerTurns() {
         endTurnBtn.on("click", (function () {
             // $("#board1").addClass("hide");
             // $("#board2").addClass("hide");
-
+            // $("h1").removeClass("h1Start");
             endTurnBtn.remove();
             console.log("End Turn Pressed");
             botTurnVsPlayer();
@@ -823,6 +829,7 @@ function playerTurns() {
 
         //P1 START TURN
         startTurnBtn.on("click", (function () {
+            $("h1").addClass("h1Start");
 
             startTurnBtn.addClass("hide");
 
@@ -885,6 +892,7 @@ function playerTurns() {
         endTurnBtn.on("click", (function () {
             $("#board1").addClass("hide");
             $("#board2").addClass("hide");
+            $("h1").removeClass("h1Start");
             endTurnBtn.remove();
             console.log("End Turn Pressed");
             startTurnBtn.removeClass("hide");
@@ -900,7 +908,7 @@ function playerTurns() {
 
         //P2 START TURN
         startTurnBtn.on("click", (function () {
-
+            $("h1").addClass("h1Start");
             startTurnBtn.addClass("hide");
 
             $("#board1").removeClass("hide");
@@ -950,6 +958,7 @@ function playerTurns() {
             $("#board1").addClass("hide");
             $("#board2").addClass("hide");
             $(".canHide").remove();
+            $("h1").removeClass("h1Start");
             endTurnBtn.remove();
             turn++;
             console.log("End Turn Pressed");
@@ -980,6 +989,7 @@ function endGameScreen(playerWon) {
     $("#board1").remove();
     $("#board2").remove();
     $("#board3").remove();
+    $("h1").removeClass("h1Start");
 
 
     $("<h2 class='endGameH'>Player " + playerWon + " Has Won!</h2>").insertAfter("h1");
