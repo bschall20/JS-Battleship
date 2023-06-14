@@ -80,7 +80,6 @@ th, tr, td {
     background-color: rgb(63, 194, 255);
     border-color: white;
     color: white;
-
 }
 
 #onePlayer, #twoPlayer {
@@ -148,6 +147,7 @@ th, tr, td {
 .vhTitle, .placeTitle {
     /* align-items: center; */
     /* display: block; */
+    color: white;
     font-size: 25px;
     margin: auto;
     padding: 25px 0px;
@@ -180,15 +180,6 @@ th, tr, td {
     /* flex-wrap: wrap; */
 }
 
-/* .board {
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-    margin: auto;
-    flex-wrap: wrap;
-    padding-bottom: 50px;
-} */
-
 .boardPlay {
     flex-direction: row;
 }
@@ -199,11 +190,6 @@ th, tr, td {
 
 .turn {
     color: white;
-}
-
-.score {
-    font-size: 1.75rem;
-    padding-bottom: 25px;
 }
 
 .isShip {
@@ -222,9 +208,40 @@ th, tr, td {
     background-color: red;
 }
 
-.score1, .score2 {
+.scoreboard {
+    margin: 20px auto;
+    width: 20%;
+}
+
+.scoreboardCell{
+    font-size: 1rem;
+    padding: 10px;
+}
+
+.scoreboardP{
+    color: white;
+    font-size: 1.5rem;
     padding-bottom: 10px;
+}
+
+.scoreboardTitle .scoreboardCell, .scoreboardScore .scoreboardCell{
+    background-color: #4e4e4e;
+}
+
+.scoreboardPlayer .scoreboardCell {
+    background-color: #8d8d8d;
+}
+
+.leadScore {
+    color: green;
+}
+
+.losingScore{
     color: red;
+}
+
+.equalScore{
+    color: blue;
 }
 
 .rules0, .rules1, .rules2 {
@@ -242,24 +259,22 @@ th, tr, td {
     margin-bottom: 20px;
 }
 
-@media only screen and (min-width: 1024px) {
-    /* .btn:hover {
-        background: #3cb0fd;
-        background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
-        background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
-        background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
-        background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
-        background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
-        box-shadow: 0 0.5em 0.5em -0.4em #3cb0fd;
-        text-decoration: none;
-        transform: translateY(-0.25em);
-    } */
 
+
+
+
+
+
+@media only screen and (min-width: 1024px) {
     #board1 td:hover, #board2 td:hover, #board3 td:hover {
         background-color: #00ff22;
         cursor: pointer;
     }
 }
+
+
+
+
 
 
 @media only screen and (max-width: 1024px) {
@@ -272,12 +287,13 @@ th, tr, td {
         font-size: 2.5rem;
     }
 
-    p, .vhTitle {
+    p, .vhTitle, .scoreboardCell {
         font-size: 1.5rem;
     }
 
-    td:hover {
-        pointer-events: none;
+    #startBtn, #endTurnBtn {
+        padding: 20px 50px;
+        font-size: 25px;
     }
 
     .h1Start {
@@ -293,31 +309,25 @@ th, tr, td {
         width: 70%;
     }
 
-    .vhTitle {
-        font-size: 1.5rem;
-    }
-
     .gameField {
         flex-direction: column;
     }
 
     .donePlacingP1, .donePlacingP2, .donePlacingBot {
         font-size: 35px;
-        /* margin: 10px auto; */
     }
 
-    /* .vhTitle, .placeTitle {
-        font-size: 25px;
-        margin: auto;
-        padding: 25px 0px;
-        text-align: center;
-    } */
-
-    #startBtn, #endTurnBtn {
-        padding: 20px 50px;
-        font-size: 25px;
+    .scoreboard {
+        width: 40%;
     }
 }
+
+
+
+
+
+
+
 
 @media only screen and (max-width: 604px) {
     h1 {
@@ -332,16 +342,16 @@ th, tr, td {
         font-size: .75rem;
     }
 
-    th, td {
-        font-size: 10px;
-    }
-
     #onePlayer, #twoPlayer {
         margin: 15px auto;
     }
 
     #startBtn, #endTurnBtn {
         font-size: 15px;
+    }
+
+    .tableHead {
+        font-size: 10px;
     }
 
     .btn {
@@ -353,14 +363,21 @@ th, tr, td {
         width: 62%;
     }
 
-    .vhTitle, .placeTitle {
+    .vhTitle, .placeTitle, .scoreboardP {
         font-size: 1rem;
     }
 
     .donePlacingP1, .donePlacingP2, .donePlacingBot {
         font-size: 15px;
         width: 75%;
-        /* margin: 10px auto; */
     }
 
+    .scoreboard {
+        width: 60%;
+    }
+
+    .scoreboardCell {
+        font-size: .8rem;
+        padding: 10px;
+    }
 }

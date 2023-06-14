@@ -124,7 +124,7 @@ function createBoard(board) {
         }
 
         if (i % 11 === 0 || (0 <= i && i <= 10)) {
-            row.append($("<th></th>").html(board[i].cellFill));
+            row.append($("<th class='tableHead'></th>").html(board[i].cellFill));
         }
         else { row.append($("<td id=" + (i) + "></td>").html(board[i].cellFill)); }     //change .location back to .cellFill for blank board!
         table.append(row);
@@ -697,24 +697,83 @@ function placeAllShips() {
 function playerTurns() {
     let hitCountP1 = 0;     //Keep count of P1 hits on P2/Bot
     let hitCountP2 = 0;     //Keep count of P2 hits on P1
-    let hitCountBot = 0;    //Keep count of Bot hits on P1
+    //let hitCountBot = 0;    //Keep count of Bot hits on P1
     let turn = 1;           //Keeps track of turn number
-    let playerNum = 0;     //Keeps track of which player is going
+    let playerNum = 1;     //Keeps track of which player is going
     let endTurnBtn = $("<button id='endTurnBtn' class='btn'>End Player Turn</button>");
-    let startTurnBtn = $("<button id='startBtn' class='btn'>Start Turn " + turn + ", Player " + playerNum + "</button>");
+    let startTurnBtn = $("<button id='startBtn' class='btn'>Start Turn " + turn + ", Player "+ playerNum +"</button>");
+    let scoreboardP2Track = "";
+
+    function p1Hit() {
+        $(".p1Score").replaceWith("<td class='p1Score scoreboardCell'>" + hitCountP1 + "</td>");
+
+        if (hitCountP1 > hitCountP2) {
+            $(".p1Score").removeClass("losingScore");
+            $(".p1Score").removeClass("equalScore");
+            $(".p2Score").removeClass("equalScore leadScore");
+            $(".p1Score").addClass("leadScore");
+            $(".p2Score").addClass("losingScore");
+
+            // $("<td class='p1Score scoreboardCell'>" + hitCountP1 + "</td>").appendTo(".scoreboardScore");
+            // $("<td class='p2Score scoreboardCell'>" + hitCountP2 + "</td>").appendTo(".scoreboardScore");
+        }
+        else if (hitCountP1 === hitCountP2) {
+            $(".p1Score").removeClass("losingScore");
+            $(".p1Score").removeClass("leadScore");
+            $(".p1Score").addClass("equalScore");
+            $(".p2Score").addClass("equalScore");
+        }
+    }
+
+    function p2Hit() {
+        $(".p2Score").replaceWith("<td class='p2Score scoreboardCell'>" + hitCountP2 + "</td>");
+
+        if (hitCountP2 > hitCountP1) {
+            $(".p2Score").removeClass("losingScore");
+            $(".p1Score").removeClass("equalScore leadScore");
+            $(".p2Score").removeClass("equalScore");
+            $(".p1Score").addClass("losingScore");
+            $(".p2Score").addClass("leadScore");
+        }
+        else if (hitCountP2 === hitCountP1) {
+            $(".p2Score").removeClass("losingScore");
+            $(".p2Score").removeClass("leadScore");
+            $(".p1Score").addClass("equalScore");
+            $(".p2Score").addClass("equalScore");
+        }
+    }
+
 
     $("#gameFieldID").addClass("boardPlay");
 
     $("h1").removeClass("h1Start");
 
     if (players === 1) {
+        scoreboardP2Track = "Bot"
         $("<button id='startBtn' class='btn'>Player vs Bot</button>").insertAfter($("h1"));
         playerTurnVsBot();
     }
     else if (players === 2) {
+        scoreboardP2Track = "2"
         startTurnBtn.insertAfter($("h1"));
         TwoPlayersP1Turn();
     }
+
+
+    var scoreboard = $("<table class='scoreboard'></table>");
+    scoreboard.insertAfter("h1");
+    $("<tr class='scoreboardTitle'></tr>").appendTo(scoreboard);
+    $("<th class='scoreboardCell' colspan='2'>Player Scores</th>").appendTo(".scoreboardTitle");
+
+    $("<tr class='scoreboardPlayer'></tr>").appendTo(scoreboard);
+    $("<td class='scoreboardCell'>Player 1</td>").appendTo(".scoreboardPlayer");
+    $("<td class='scoreboardCell'>Player " + scoreboardP2Track + "</td>").appendTo(".scoreboardPlayer");
+
+    $("<tr class='scoreboardScore'></tr>").appendTo(scoreboard);
+    $("<td class='p1Score scoreboardCell'>" + hitCountP1 + "</td>").appendTo(".scoreboardScore");
+    $("<td class='p2Score scoreboardCell'>" + hitCountP2 + "</td>").appendTo(".scoreboardScore");
+
+    $("<p class='scoreboardP'>*First to 14 hits wins!*</p>").insertAfter(scoreboard);
 
 
     //*********************1 PLAYER TURNS*******************//
@@ -745,11 +804,15 @@ function playerTurns() {
                 // $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").appendTo($(".turn"));
                 // $(".score1").addClass("hide");
                 //$(".score1").replaceWith($("<h3 class='score canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>"));          //fix, replaces all of rules and above
-                if (hitCountP1 === 1) {
+
+                p1Hit();
+
+                if (hitCountP1 === 2) {
                     alert("Player 1 has won!");
                     endTurnBtn.remove();
                     endGameScreen(playerNum);
                 }
+                else { endTurnBtn.insertAfter($("h1")); }
             }
             else {
                 $(this).addClass("isMiss");
@@ -771,21 +834,6 @@ function playerTurns() {
     }
 
     function botTurnVsPlayer() {
-
-        // function botShipPlacement(shipNum) {
-        //     //If direction === 1, go horizontal
-        //     //If direction === 2, go vertical
-        //     let direction = Math.floor(Math.random() * 2 + 1);
-        //     let spot = Math.floor(Math.random() * 120);
-
-        //     do {
-        //         spot = Math.floor(Math.random() * 120)
-        //     } while (spot <= 11 || spot % 11 === 0);
-
-        //     console.log(`Bot turn with direction ${direction} and spot of ${spot} with a length of ${shipNum}`);
-        //     placeShip(shipNum, direction, spot);
-        // }
-        // botShipPlacement(5);
         playerNum = "Bot";
         let shotTrack = [];
         let shotTrackHit = [];
@@ -805,11 +853,17 @@ function playerTurns() {
             $(`#board1 #${shotStr}`).removeClass("isShip");
             $(`#board1 #${shotStr}`).removeClass("isShipHide");
             shotTrackHit.push(shot);
-            hitCountBot++;
+            hitCountP2++;
+            //hitCountBot++;
             // $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").appendTo($(".turn"));
             // $(".score1").addClass("hide");
             //$(".score1").replaceWith($("<h3 class='score canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>"));          //fix, replaces all of rules and above
-            if (hitCountBot === 1) {
+
+            //if (hitCountBot === 1) {
+
+            p2Hit();
+
+            if (hitCountP2 === 2) {
                 alert("Bot Player has won!");
                 endTurnBtn.remove();
                 endGameScreen(playerNum);
@@ -874,11 +928,16 @@ function playerTurns() {
                 // $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").appendTo($(".turn"));
                 // $(".score1").addClass("hide");
                 //$(".score1").replaceWith($("<h3 class='score canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>"));        //fix, replaces all of rules and above
-                if (hitCountP1 === 1) {
+
+                p1Hit();
+
+                if (hitCountP1 === 2) {
                     alert("Player 1 has won!");
                     endTurnBtn.remove();
                     endGameScreen(playerNum);
                 }
+                else{ endTurnBtn.insertAfter($("h1")); }
+
             }
             else {
                 $(this).addClass("isMiss");
@@ -894,6 +953,7 @@ function playerTurns() {
             $("#board2").addClass("hide");
             $("h1").removeClass("h1Start");
             endTurnBtn.remove();
+            startTurnBtn = $("<button id='startBtn' class='btn'>Start Turn " + turn + ", Player 2</button>").insertAfter($("h1"));
             console.log("End Turn Pressed");
             startTurnBtn.removeClass("hide");
             TwoPlayersP2Turn();
@@ -933,17 +993,27 @@ function playerTurns() {
 
         $("#board1 td").on("click", (function () {
             console.log("Board 1 TD Clicked");
+
+            // if ($(this).hasClass("isMiss" || "isHit")){
+            //     alert("Shot already taken there! Please shoot again!");
+            //     TwoPlayersP2Turn();
+            // }
+            // else if ($(this).hasClass("isShip")) {
+
             if ($(this).hasClass("isShip")) {
                 $(this).addClass("isHit");
                 $(this).removeClass("isShip");
                 $(this).removeClass("isShipHide");
                 hitCountP2++;
 
-                if (hitCountP2 === 1) {
+                p2Hit();
+
+                if (hitCountP2 === 2) {
                     alert("Player 2 has won!");
                     endTurnBtn.remove();
                     endGameScreen(playerNum);
                 }
+                else{ endTurnBtn.insertAfter($("h1")); }
             }
             else {
                 $(this).addClass("isMiss");
@@ -961,6 +1031,7 @@ function playerTurns() {
             $("h1").removeClass("h1Start");
             endTurnBtn.remove();
             turn++;
+            startTurnBtn = $("<button id='startBtn' class='btn'>Start Turn " + turn + ", Player 1</button>").insertAfter($("h1"));
             console.log("End Turn Pressed");
             startTurnBtn.removeClass("hide");
             TwoPlayersP1Turn();
@@ -1016,3 +1087,5 @@ function endGameScreen(playerWon) {
 //TO DO STILL:
 // 1.) Add rules list at top
 // 2.) Add forfeit button (turns all object numbers to 1 to reveal board)
+// 3.) Add Random Placement button for players
+// 6.) Don't let player click on same square to shoot again? Or let them make that mistake?
