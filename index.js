@@ -892,7 +892,7 @@ function playerTurns() {
 
                 p1Hit();
 
-                if (hitCountP1 === 2) {
+                if (hitCountP1 === 14) {
                     alert("Player 1 has won!");
                     endTurnBtn.remove();
                     endGameScreen(playerNum);
@@ -948,7 +948,7 @@ function playerTurns() {
 
             p2Hit();
 
-            if (hitCountP2 === 2) {
+            if (hitCountP2 === 14) {
                 alert("Bot Player has won!");
                 endTurnBtn.remove();
                 endGameScreen(playerNum);
@@ -1016,7 +1016,7 @@ function playerTurns() {
 
                 p1Hit();
 
-                if (hitCountP1 === 2) {
+                if (hitCountP1 === 14) {
                     alert("Player 1 has won!");
                     endTurnBtn.remove();
                     endGameScreen(playerNum);
@@ -1093,7 +1093,7 @@ function playerTurns() {
 
                 p2Hit();
 
-                if (hitCountP2 === 2) {
+                if (hitCountP2 === 14) {
                     alert("Player 2 has won!");
                     endTurnBtn.remove();
                     endGameScreen(playerNum);
