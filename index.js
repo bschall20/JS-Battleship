@@ -162,7 +162,23 @@ function placeAllShips() {
     // const cruiser = 3;
     // const submarine = 3;
     // const destroyer = 2;
+    let spot = 0;
+    let rndmClick = 0;
 
+
+    function botShipPlacement(shipNum) {
+        //If direction === 1, go horizontal
+        //If direction === 2, go vertical
+        let direction = Math.floor(Math.random() * 2 + 1);
+        spot = Math.floor(Math.random() * 120);
+
+        do {
+            spot = Math.floor(Math.random() * 120)
+        } while (spot <= 11 || spot % 11 === 0);
+
+        console.log(`Bot turn with direction ${direction} and spot of ${spot} with a length of ${shipNum}`);
+        placeShip(shipNum, direction, spot);
+    }
 
     //Set board for player 1
     if (n === 1) {
@@ -180,20 +196,6 @@ function placeAllShips() {
 
     // Set board for bot player
     else if (n === 3) {
-        function botShipPlacement(shipNum) {
-            //If direction === 1, go horizontal
-            //If direction === 2, go vertical
-            let direction = Math.floor(Math.random() * 2 + 1);
-            let spot = Math.floor(Math.random() * 120);
-
-            do {
-                spot = Math.floor(Math.random() * 120)
-            } while (spot <= 11 || spot % 11 === 0);
-
-            console.log(`Bot turn with direction ${direction} and spot of ${spot} with a length of ${shipNum}`);
-            placeShip(shipNum, direction, spot);
-        }
-
         botShipPlacement(5);
     }
 
@@ -209,6 +211,7 @@ function placeAllShips() {
             $(".rndmHorizBtn").remove();
             $(".vertBtn").remove();
             $(".rndmVertBtn").remove();
+            $(".rndmAll").remove();
         }
 
         function endShipPlacement() {   //import ship?
@@ -217,8 +220,8 @@ function placeAllShips() {
             $(".placeTitle").addClass("hide");
             //placeShip(nextShip);
             if (n === 1 || n === 2) {
-                //placeShip(nextShip);
-                placeShip(2);
+                placeShip(nextShip);
+                //placeShip(2);
             }
             else if (n === 3) {
                 botShipPlacement(nextShip);
@@ -300,7 +303,7 @@ function placeAllShips() {
         $("<button class='rndmHorizBtn btn'>Place ship (" + ship + ") horizontal randomly</button>").insertAfter($(".horizBtn"));
         $("<button class='vertBtn btn'>Place ship (" + ship + ") vertical</button>").insertAfter($(".rndmHorizBtn"));
         $("<button class='rndmVertBtn btn'>Place ship (" + ship + ") vertical randomly</button>").insertAfter($(".vertBtn"));
-
+        $("<button class='rndmAll btn' style='flex: 100%;'>Place remaining ship(s) randomly</button>").insertAfter($(".rndmVertBtn"));
         // $("<h3 class='vhTitle'>Choose which way to place your ship of (" + ship + ") spots!</h3>").insertAfter($("#board" + n));
         // $("<button class='horizBtn btn'>Place ship (" + ship + ") horizontal</button>").insertAfter($(".vhTitle"));
         // $("<button class='vertBtn btn'>Place ship (" + ship + ") vertical</button>").insertAfter($(".horizBtn"));
@@ -311,13 +314,71 @@ function placeAllShips() {
         //CALL WHICH DIRECTION TO PLACE SHIP
         //PLAYER CALL
         $(".horizBtn").on("click", (function () {
+            rndmClick = 0;
             horizontal();
             console.log("clicked horizontal!");
-        }))
+        }));
+
         $(".vertBtn").on("click", (function () {
+            rndmClick = 0;
             vertical();
             console.log("clicked vertical!");
-        }))
+        }));
+
+        $(".rndmHorizBtn").on("click", (function () {
+            rndmClick = 1;
+            direction = 1;
+            spot = Math.floor(Math.random() * 120);
+
+            do {
+                spot = Math.floor(Math.random() * 120)
+            } while (spot <= 11 || spot % 11 === 0);
+
+            horizontal(spot);
+            console.log("clicked random horizontal!");
+        }));
+
+        $(".rndmVertBtn").on("click", (function () {
+            rndmClick = 1;
+            direction = 2;
+            spot = Math.floor(Math.random() * 120);
+
+            do {
+                spot = Math.floor(Math.random() * 120)
+            } while (spot <= 11 || spot % 11 === 0);
+
+           vertical(spot);
+           console.log("clicked random vertical!");
+        }));
+
+        $(".rndmAll").on("click", (function () {
+            rndmClick = 1;
+
+            do {
+            spot = Math.floor(Math.random() * 120);
+
+            do {
+                spot = Math.floor(Math.random() * 120)
+            } while (spot <= 11 || spot % 11 === 0);
+
+            direction = Math.floor(Math.random() * 2 + 1);
+            if (direction === 1){
+                horizontal(spot);
+            }
+            else {
+                vertical(spot);
+            }
+
+            console.log("clicked random all!");
+            console.log(ship);
+            ship--;
+            //placeShip(ship, direction, spot);
+            //botShipPlacement(ship);
+            } while (ship >= 2);
+
+        }));
+
+
         //BOT CALL
         if (n === 3 && direction === 1) {
             horizontal(spot);
@@ -359,13 +420,23 @@ function placeAllShips() {
                 //console.log("Cannot place in the following slots (right most " + wrong + " column(s)): " + notAllowedHoriz);
                 $("td").off("click");
                 $(".placeTitle").addClass("hide");
-                if (n === 1 || n === 2) {
+
+                if (rndmClick === 1){
+                    do {
+                        spot = Math.floor(Math.random() * 120)
+                    } while (spot <= 11 || spot % 11 === 0);
+                    if (direction === 1){
+                        horizontal(spot);
+                    }
+                    else {vertical(spot);}
+                }
+                else if (n === 1 || n === 2) {
                     alert("ERROR: Try placement elsewhere!")
                     console.log("Cannot place in the following slots (right most " + wrong + " column(s)): " + notAllowedHoriz);
                     placeShip(ship);
                 }
                 else if (n === 3) {
-                    botShipPlacement(ship)
+                    botShipPlacement(ship);
                 }
             }
 
@@ -407,7 +478,7 @@ function placeAllShips() {
                 let slotID = $(this).prop("id");
                 place(slotID);
             }))
-            if (n === 3) {
+            if (n === 3 || rndmClick === 1) {
                 //Have to turn into string to allow ship to adhere to boundary placement
                 let spotStr = spot.toString();
                 place(spotStr);
@@ -522,7 +593,16 @@ function placeAllShips() {
                 $("td").off("click");
                 $(".placeTitle").addClass("hide");
 
-                if (n === 1 || n === 2) {
+                if (rndmClick === 1){
+                    do {
+                        spot = Math.floor(Math.random() * 120)
+                    } while (spot <= 11 || spot % 11 === 0);
+                    if (direction === 1){
+                        horizontal(spot);
+                    }
+                    else {vertical(spot);}
+                }
+                else if (n === 1 || n === 2) {
                     alert("ERROR: Try placement elsewhere!")
                     console.log("Cannot place in the following slots (top most " + wrong + " row(s)): " + notAllowedVert);
                     placeShip(ship);
@@ -574,7 +654,7 @@ function placeAllShips() {
                 let slotID = $(this).prop("id");
                 place(slotID);
             }))
-            if (n === 3) {
+            if (n === 3 || rndmClick === 1) {
                 let spotStr = spot.toString();
                 place(spotStr);
             }
@@ -823,7 +903,7 @@ function playerTurns() {
                 $(this).addClass("isMiss");
                 endTurnBtn.insertAfter($("h1"));
             }
-
+            $('html, body').animate({ scrollTop: 0 }, 'fast');
             $("#board3 td").off("click");
             // endTurnBtn.insertAfter($("h1"));
         }));
@@ -948,7 +1028,7 @@ function playerTurns() {
                 $(this).addClass("isMiss");
                 endTurnBtn.insertAfter($("h1"));
             }
-
+            $('html, body').animate({ scrollTop: 0 }, 'fast');
             $("#board2 td").off("click");
             //endTurnBtn.insertAfter($("h1"));
         }));
@@ -1024,7 +1104,7 @@ function playerTurns() {
                 $(this).addClass("isMiss");
                 endTurnBtn.insertAfter($("h1"));
             }
-
+            $('html, body').animate({ scrollTop: 0 }, 'fast');
             $("#board1 td").off("click");
             // endTurnBtn.insertAfter($("h1"));
         }));
@@ -1065,7 +1145,7 @@ function endGameScreen(playerWon) {
     $("#board1").remove();
     $("#board2").remove();
     $("#board3").remove();
-    $("h1").removeClass("h1Start");
+    //$("h1").removeClass("h1Start");
 
 
     $("<h2 class='endGameH'>Player " + playerWon + " Has Won!</h2>").insertAfter("h1");

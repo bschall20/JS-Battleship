@@ -192,8 +192,8 @@ th, tr, td {
     flex-direction: row;
   }  */
 
-.horizBtn, .vertBtn, .rndmHorizBtn, .rndmVertBtn {
-    /* align-items: center; */
+.horizBtn, .vertBtn, .rndmHorizBtn, .rndmVertBtn, .rndmAll {
+    align-items: center;
     /* display: inline; */
   /* justify-content: space-between; */
     /* width: 50%; */
@@ -206,6 +206,10 @@ th, tr, td {
     justify-content: center;
     margin: 20px;
 }
+
+/* .rndmAll {
+    flex: 100%;
+} */
 
 .boardPlay {
     flex-direction: row;
@@ -331,13 +335,17 @@ th, tr, td {
         font-size: 40px;
     }
 
-    .horizBtn, .vertBtn, .rndmHorizBtn, .rndmVertBtn {
+    .horizBtn, .vertBtn, .rndmHorizBtn, .rndmVertBtn, .rndmAll {
         font-size: 15px;
         /* width: 70%; */
-    flex: 45%;
-    flex-basis: 35%;
-    margin: 10px;
+        flex: 45%;
+        flex-basis: 35%;
+        margin: 10px;
     }
+
+    /* .rndmAll {
+        flex: 100%;
+    } */
 
     .gameField {
         flex-direction: column;
@@ -388,7 +396,7 @@ th, tr, td {
         font-size: 30px;
     }
 
-    .horizBtn, .vertBtn, .rndmHorizBtn, .rndmVertBtn {
+    .horizBtn, .vertBtn, .rndmHorizBtn, .rndmVertBtn, .rndmAll {
         font-size: 10px;
         /* flex: 20%;
         flex-basis: 15%; */
