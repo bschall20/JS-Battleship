@@ -206,7 +206,9 @@ function placeAllShips() {
         function hide() {
             $(".vhTitle").remove();
             $(".horizBtn").remove();
+            $(".rndmHorizBtn").remove();
             $(".vertBtn").remove();
+            $(".rndmVertBtn").remove();
         }
 
         function endShipPlacement() {   //import ship?
@@ -292,15 +294,18 @@ function placeAllShips() {
         }
 
 
-        // $("td").on("click", (function () {
-        //     console.log($(this).prop("id"));
-        //     $(this).toggleClass("isShip")
-        // }));
-
-
-        $("<h3 class='vhTitle'>Choose which way to place your ship of (" + ship + ") spots!</h3>").insertAfter($("#board" + n));
+        //$("<h3 class='vhTitle'>Choose which way to place your ship of (" + ship + ") spots!</h3>").insertAfter($("#board" + n));
+        $("<h3 class='vhTitle'>Choose which way to place your ship of (" + ship + ") spots!</h3>").appendTo($(".shipDirection"));
         $("<button class='horizBtn btn'>Place ship (" + ship + ") horizontal</button>").insertAfter($(".vhTitle"));
-        $("<button class='vertBtn btn'>Place ship (" + ship + ") vertical</button>").insertAfter($(".horizBtn"));
+        $("<button class='rndmHorizBtn btn'>Place ship (" + ship + ") horizontal randomly</button>").insertAfter($(".horizBtn"));
+        $("<button class='vertBtn btn'>Place ship (" + ship + ") vertical</button>").insertAfter($(".rndmHorizBtn"));
+        $("<button class='rndmVertBtn btn'>Place ship (" + ship + ") vertical randomly</button>").insertAfter($(".vertBtn"));
+
+        // $("<h3 class='vhTitle'>Choose which way to place your ship of (" + ship + ") spots!</h3>").insertAfter($("#board" + n));
+        // $("<button class='horizBtn btn'>Place ship (" + ship + ") horizontal</button>").insertAfter($(".vhTitle"));
+        // $("<button class='vertBtn btn'>Place ship (" + ship + ") vertical</button>").insertAfter($(".horizBtn"));
+
+
 
 
         //CALL WHICH DIRECTION TO PLACE SHIP
@@ -701,7 +706,7 @@ function playerTurns() {
     let turn = 1;           //Keeps track of turn number
     let playerNum = 1;     //Keeps track of which player is going
     let endTurnBtn = $("<button id='endTurnBtn' class='btn'>End Player Turn</button>");
-    let startTurnBtn = $("<button id='startBtn' class='btn'>Start Turn " + turn + ", Player "+ playerNum +"</button>");
+    let startTurnBtn = $("<button id='startBtn' class='btn'>Start Turn " + turn + ", Player " + playerNum + "</button>");
     let scoreboardP2Track = "";
 
     function p1Hit() {
@@ -936,7 +941,7 @@ function playerTurns() {
                     endTurnBtn.remove();
                     endGameScreen(playerNum);
                 }
-                else{ endTurnBtn.insertAfter($("h1")); }
+                else { endTurnBtn.insertAfter($("h1")); }
 
             }
             else {
@@ -1013,7 +1018,7 @@ function playerTurns() {
                     endTurnBtn.remove();
                     endGameScreen(playerNum);
                 }
-                else{ endTurnBtn.insertAfter($("h1")); }
+                else { endTurnBtn.insertAfter($("h1")); }
             }
             else {
                 $(this).addClass("isMiss");
