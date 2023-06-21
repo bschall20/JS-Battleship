@@ -2,10 +2,8 @@
     border: 0;
     margin: 0;
     padding: 0;
-    /* background-color: #4e4e4e; */
     background-color: #011F3F;
     font-size: 1rem;
-    /* overflow: hidden; */
 }
 
 body {
@@ -21,23 +19,14 @@ h1 {
 }
 
 h2 {
-    /* color: #3d3d3d; */
     color: white;
     font-size: 2.5rem;
     margin: auto;
-    padding: 25px 0px;
+    padding-bottom: 15px;
     text-align: center;
     width: 80%;
-    /* -webkit-text-stroke: .5px black; */
 }
 
-/* h3 {
-    width: 80%;
-    text-align: center;
-    font-size: 1.5rem;
-    padding: 25px 0px;
-    margin: auto;
-} */
 
 button {
     background-color: rgb(0, 238, 255);
@@ -50,7 +39,6 @@ button {
 }
 
 table {
-    /* width was previously 80% with th/tr/td padding of 25px */
     width: 80%;
     border: 1px solid;
     border-collapse: collapse;
@@ -58,11 +46,6 @@ table {
     empty-cells: show;
     flex-direction: column;
     margin: auto;
-
-    /* -webkit-box-shadow: 0px 10px 30px 3px rgba(255, 255, 255, 0.75);
-    -moz-box-shadow: 0px 10px 30px 3px rgba(255, 255, 255, 0.75);
-    box-shadow: 0px 10px 30px 3px rgba(255, 255, 255, 0.75);
-     */
 
     -webkit-box-shadow: 0px 0px 0px 5px rgba(255, 255, 255, 0.75);
     -moz-box-shadow: 0px 0px 0px 5px rgba(255, 255, 255, 0.75);
@@ -72,8 +55,6 @@ table {
 
 th, tr, td {
     border: 1px solid;
-    /* border-top: none;
-    border-left: none; */
     text-align: center;
     padding: 10px;
     background-color: rgb(63, 194, 255);
@@ -92,17 +73,6 @@ th, tr, td {
 #board1, #board2, #board3 {
     margin-bottom: 25px;
 }
-
-/* #board1, #board2 { 
-    -webkit-box-shadow: 0px 10px 30px 3px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 10px 30px 3px rgba(0,0,0,0.75);
-    box-shadow: 0px 10px 30px 3px rgba(0,0,0,0.75);
-} */
-
-/* #board1 td:hover, #board2 td:hover, #board3 td:hover {
-    background-color: #00ff22;
-    cursor: pointer;
-} */
 
 .h1Start {
     margin: 15px auto 25px;
@@ -144,8 +114,6 @@ th, tr, td {
 }
 
 .vhTitle, .placeTitle {
-    /* align-items: center; */
-    /* display: block; */
     color: white;
     font-size: 25px;
     margin: auto;
@@ -154,62 +122,30 @@ th, tr, td {
     width: 100%;
 }
 
-/* .board button {
-    margin: auto;
-} */
-
-
 .gameField {
     display: flex;
-    /* flex-direction: row; */
     flex-direction: column;
     margin-bottom: 0px;
-    /* flex-wrap: wrap; */
 }
 
 .shipDirection{
-    /* column-gap: 10px; */
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    /* justify-content: space-between; */
-
     margin: 0px auto 50px;
     width: 60%;
 }
 
- /* .shipDirection > button {
-    display: flex; 
-    flex-basis: calc(50% - 40px);
-    justify-content: center;
-    flex-direction: column;
-  } */
-
-  
-/* .shipDirection > button > button {
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-  }  */
-
 .horizBtn, .vertBtn, .rndmHorizBtn, .rndmVertBtn, .rndmAll {
     align-items: center;
-    /* display: inline; */
-  /* justify-content: space-between; */
-    /* width: 50%; */
     display: flex;
     flex: 50%;
-    /* flex-basis: calc(50% - 40px); */
     flex-basis: 43%;
     flex-direction: column;
     font-size: 20px;
     justify-content: center;
     margin: 20px;
 }
-
-/* .rndmAll {
-    flex: 100%;
-} */
 
 .boardPlay {
     flex-direction: row;
@@ -239,8 +175,12 @@ th, tr, td {
     background-color: red;
 }
 
+.isSunk {
+    background-color: black;
+}
+
 .scoreboard {
-    margin: 20px auto;
+    margin: 40px auto 20px;
     width: 20%;
 }
 
@@ -275,13 +215,14 @@ th, tr, td {
     color: blue;
 }
 
-.rules0, .rules1, .rules2 {
+.rules0, .rules1, .rules2, .rules3 {
     /* font-size: 25px;
+    font-size: 1rem;
     margin: auto;
-    text-align: center; */
-    padding: 10px 0px;
-    font-weight: 900;
+    text-align: center; 
+    font-weight: 900; */
     color: rgb(255, 255, 255);
+    padding: 10px 0px;
 }
 
 .endGameP {
@@ -355,6 +296,10 @@ th, tr, td {
         font-size: 35px;
     }
 
+    .rules0, .rules1, .rules2, .rules3 {
+        font-size: 20px;
+    }
+
     .scoreboard {
         width: 40%;
     }
@@ -405,7 +350,7 @@ th, tr, td {
         /* width: 62%; */
     }
 
-    .vhTitle, .placeTitle, .scoreboardP {
+    .vhTitle, .placeTitle, .scoreboardP, .rules0, .rules1, .rules2, .rules3 {
         font-size: 1rem;
     }
 

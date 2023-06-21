@@ -160,7 +160,7 @@ function placeAllShips() {
     // const carrier = 5;
     // const battleship = 4;
     // const cruiser = 3;
-    // const submarine = 3;
+    // // const submarine = 3;
     // const destroyer = 2;
     let spot = 0;
     let rndmClick = 0;
@@ -204,6 +204,11 @@ function placeAllShips() {
 
     //can maybe get this function to run as placeShip and make the input variable of the const ships
     function placeShip(ship, direction, spot) {
+        // let carrier = 5;
+        // let battleship = 4;
+        // let cruiser = 3;
+        // let destroyer = 2;
+
 
         function hide() {
             $(".vhTitle").remove();
@@ -269,30 +274,28 @@ function placeAllShips() {
             //PLAYER BOT
             else if (n === 3) {
 
-                $("#board1").addClass("hide");
-                alert("Place ships, Bot Player!");
-                var donePlacingBot = $("<button class='donePlacingBot btn'>Done Placing Battleships</button>")
-                donePlacingBot.appendTo($("#board3"));
+                // $("#board1").addClass("hide");
+                // alert("Place ships, Bot Player!");
+                // var donePlacingBot = $("<button class='donePlacingBot btn'>Done Placing Battleships</button>")
+                // donePlacingBot.appendTo($("#board3"));
 
-                //Don't add button like have below. Make it call the same function that will be at the end of P2 placement for blank screen
+                // $(".donePlacingBot").on("click", (function () {
+                //     $("h1").removeClass("h1Start");
+                //     console.log("Bot User is done placing their battleships!");
+                //     n++;
+                //     $(".donePlacingBot").addClass("hide");
+                //     $("td").off("click");
 
-                //get rid of on click. need a loop to generate math to select spots
-                $(".donePlacingBot").on("click", (function () {
-                    $("h1").removeClass("h1Start");
-                    console.log("Bot User is done placing their battleships!");
-                    n++;
-                    $(".donePlacingBot").addClass("hide");
-                    //$("#board1").removeClass("hide");
-                    $("td").off("click");
+                //     console.log(`n is equal to ${n}`);
+                //     console.log(`Players is equal to ${players}`);
 
-                    console.log(`n is equal to ${n}`);
-                    console.log(`Players is equal to ${players}`);
+                //     //********UNCOMMENT WHEN DONE TESTING. DON'T WANT TO SEE BOT BOARD. NEED TO GET RID OF BUTTON TOO. JUST CALL THE playerTurns() !! */
+                //     //$("#board3").addClass("hide");
 
-                    //********UNCOMMENT WHEN DONE TESTING. DON'T WANT TO SEE BOT BOARD. NEED TO GET RID OF BUTTON TOO. JUST CALL THE playerTurns() !! */
-                    $("#board3").addClass("hide");
-
-                    playerTurns();
-                }));
+                //     playerTurns();
+                // }));
+                $("#board3").addClass("hide");
+                playerTurns();
             }
         }
 
@@ -347,33 +350,33 @@ function placeAllShips() {
                 spot = Math.floor(Math.random() * 120)
             } while (spot <= 11 || spot % 11 === 0);
 
-           vertical(spot);
-           console.log("clicked random vertical!");
+            vertical(spot);
+            console.log("clicked random vertical!");
         }));
 
         $(".rndmAll").on("click", (function () {
             rndmClick = 1;
 
             do {
-            spot = Math.floor(Math.random() * 120);
+                spot = Math.floor(Math.random() * 120);
 
-            do {
-                spot = Math.floor(Math.random() * 120)
-            } while (spot <= 11 || spot % 11 === 0);
+                do {
+                    spot = Math.floor(Math.random() * 120)
+                } while (spot <= 11 || spot % 11 === 0);
 
-            direction = Math.floor(Math.random() * 2 + 1);
-            if (direction === 1){
-                horizontal(spot);
-            }
-            else {
-                vertical(spot);
-            }
+                direction = Math.floor(Math.random() * 2 + 1);
+                if (direction === 1) {
+                    horizontal(spot);
+                }
+                else {
+                    vertical(spot);
+                }
 
-            console.log("clicked random all!");
-            console.log(ship);
-            ship--;
-            //placeShip(ship, direction, spot);
-            //botShipPlacement(ship);
+                console.log("clicked random all!");
+                console.log(ship);
+                ship--;
+                //placeShip(ship, direction, spot);
+                //botShipPlacement(ship);
             } while (ship >= 2);
 
         }));
@@ -421,14 +424,14 @@ function placeAllShips() {
                 $("td").off("click");
                 $(".placeTitle").addClass("hide");
 
-                if (rndmClick === 1){
+                if (rndmClick === 1) {
                     do {
                         spot = Math.floor(Math.random() * 120)
                     } while (spot <= 11 || spot % 11 === 0);
-                    if (direction === 1){
+                    if (direction === 1) {
                         horizontal(spot);
                     }
-                    else {vertical(spot);}
+                    else { vertical(spot); }
                 }
                 else if (n === 1 || n === 2) {
                     alert("ERROR: Try placement elsewhere!")
@@ -510,7 +513,7 @@ function placeAllShips() {
                         endShipPlacementErrorHoriz();
                     }
                     else {
-                        $(`#board${n} #${slot}`).addClass("isShip").next().addClass("isShip").next().addClass("isShip").next().addClass("isShip").next().addClass("isShip");
+                        $(`#board${n} #${slot}`).addClass("isShip carrier").next().addClass("isShip carrier").next().addClass("isShip carrier").next().addClass("isShip carrier").next().addClass("isShip carrier");
                         endShipPlacement();
                     }
                 }
@@ -526,7 +529,7 @@ function placeAllShips() {
                         endShipPlacementErrorHoriz();
                     }
                     else {
-                        $(`#board${n} #${slot}`).addClass("isShip").next().addClass("isShip").next().addClass("isShip").next().addClass("isShip");
+                        $(`#board${n} #${slot}`).addClass("isShip battleship").next().addClass("isShip battleship").next().addClass("isShip battleship").next().addClass("isShip battleship");
                         endShipPlacement();
                     }
                 }
@@ -543,7 +546,7 @@ function placeAllShips() {
                         endShipPlacementErrorHoriz();
                     }
                     else {
-                        $(`#board${n} #${slot}`).addClass("isShip").next().addClass("isShip").next().addClass("isShip");
+                        $(`#board${n} #${slot}`).addClass("isShip cruiser").next().addClass("isShip cruiser").next().addClass("isShip cruiser");
                         endShipPlacement();
                     }
                 }
@@ -560,7 +563,7 @@ function placeAllShips() {
                         endShipPlacementErrorHoriz();
                     }
                     else {
-                        $(`#board${n} #${slot}`).addClass("isShip").next().addClass("isShip");
+                        $(`#board${n} #${slot}`).addClass("isShip destroyer").next().addClass("isShip destroyer");
                         $("td").off("click");
                         $(".placeTitle").addClass("hide");
                         finishAllPlacement();
@@ -593,14 +596,14 @@ function placeAllShips() {
                 $("td").off("click");
                 $(".placeTitle").addClass("hide");
 
-                if (rndmClick === 1){
+                if (rndmClick === 1) {
                     do {
                         spot = Math.floor(Math.random() * 120)
                     } while (spot <= 11 || spot % 11 === 0);
-                    if (direction === 1){
+                    if (direction === 1) {
                         horizontal(spot);
                     }
-                    else {vertical(spot);}
+                    else { vertical(spot); }
                 }
                 else if (n === 1 || n === 2) {
                     alert("ERROR: Try placement elsewhere!")
@@ -686,11 +689,11 @@ function placeAllShips() {
                         endShipPlacementErrorVert();
                     }
                     else {
-                        $(`#board${n} #${slot}`).addClass("isShip");
-                        $(`#board${n} #${slot11}`).addClass("isShip");
-                        $(`#board${n} #${slot22}`).addClass("isShip");
-                        $(`#board${n} #${slot33}`).addClass("isShip");
-                        $(`#board${n} #${slot44}`).addClass("isShip");
+                        $(`#board${n} #${slot}`).addClass("isShip carrier");
+                        $(`#board${n} #${slot11}`).addClass("isShip carrier");
+                        $(`#board${n} #${slot22}`).addClass("isShip carrier");
+                        $(`#board${n} #${slot33}`).addClass("isShip carrier");
+                        $(`#board${n} #${slot44}`).addClass("isShip carrier");
 
                         endShipPlacement();
                     }
@@ -708,10 +711,10 @@ function placeAllShips() {
                         endShipPlacementErrorVert();
                     }
                     else {
-                        $(`#board${n} #${slot}`).addClass("isShip");
-                        $(`#board${n} #${slot11}`).addClass("isShip");
-                        $(`#board${n} #${slot22}`).addClass("isShip");
-                        $(`#board${n} #${slot33}`).addClass("isShip");
+                        $(`#board${n} #${slot}`).addClass("isShip battleship");
+                        $(`#board${n} #${slot11}`).addClass("isShip battleship");
+                        $(`#board${n} #${slot22}`).addClass("isShip battleship");
+                        $(`#board${n} #${slot33}`).addClass("isShip battleship");
                         endShipPlacement();
                     }
                 }
@@ -728,9 +731,9 @@ function placeAllShips() {
                         endShipPlacementErrorVert();
                     }
                     else {
-                        $(`#board${n} #${slot}`).addClass("isShip");
-                        $(`#board${n} #${slot11}`).addClass("isShip");
-                        $(`#board${n} #${slot22}`).addClass("isShip");
+                        $(`#board${n} #${slot}`).addClass("isShip cruiser");
+                        $(`#board${n} #${slot11}`).addClass("isShip cruiser");
+                        $(`#board${n} #${slot22}`).addClass("isShip cruiser");
                         endShipPlacement();
                     }
                 }
@@ -748,8 +751,8 @@ function placeAllShips() {
                         endShipPlacementErrorVert();
                     }
                     else {
-                        $(`#board${n} #${slot}`).addClass("isShip");
-                        $(`#board${n} #${slot11}`).addClass("isShip");
+                        $(`#board${n} #${slot}`).addClass("isShip destroyer");
+                        $(`#board${n} #${slot11}`).addClass("isShip destroyer");
                         $("td").off("click");
                         $(".placeTitle").addClass("hide");
                         finishAllPlacement();
@@ -780,6 +783,17 @@ function placeAllShips() {
 
 
 function playerTurns() {
+    let carrierP1 = 5;
+    let battleshipP1 = 4;
+    let cruiserP1 = 3;
+    let destroyerP1 = 2;
+
+    let carrierP2 = 5;
+    let battleshipP2 = 4;
+    let cruiserP2 = 3;
+    let destroyerP2 = 2;
+
+
     let hitCountP1 = 0;     //Keep count of P1 hits on P2/Bot
     let hitCountP2 = 0;     //Keep count of P2 hits on P1
     //let hitCountBot = 0;    //Keep count of Bot hits on P1
@@ -793,8 +807,8 @@ function playerTurns() {
         $(".p1Score").replaceWith("<td class='p1Score scoreboardCell'>" + hitCountP1 + "</td>");
 
         if (hitCountP1 > hitCountP2) {
-            $(".p1Score").removeClass("losingScore");
-            $(".p1Score").removeClass("equalScore");
+            $(".p1Score").removeClass("losingScore equalScore");
+            //$(".p1Score").removeClass("equalScore");
             $(".p2Score").removeClass("equalScore leadScore");
             $(".p1Score").addClass("leadScore");
             $(".p2Score").addClass("losingScore");
@@ -803,10 +817,17 @@ function playerTurns() {
             // $("<td class='p2Score scoreboardCell'>" + hitCountP2 + "</td>").appendTo(".scoreboardScore");
         }
         else if (hitCountP1 === hitCountP2) {
-            $(".p1Score").removeClass("losingScore");
-            $(".p1Score").removeClass("leadScore");
+            $(".p1Score").removeClass("losingScore leadScore");
+            //$(".p1Score").removeClass("leadScore");
             $(".p1Score").addClass("equalScore");
             $(".p2Score").addClass("equalScore");
+        }
+        else if (hitCountP1 < hitCountP2){
+            $(".p2Score").removeClass("losingScore equalScore");
+            $(".p1Score").removeClass("equalScore leadScore");
+            //$(".p2Score").removeClass("equalScore");
+            $(".p1Score").addClass("losingScore");
+            $(".p2Score").addClass("leadScore");
         }
     }
 
@@ -814,19 +835,56 @@ function playerTurns() {
         $(".p2Score").replaceWith("<td class='p2Score scoreboardCell'>" + hitCountP2 + "</td>");
 
         if (hitCountP2 > hitCountP1) {
-            $(".p2Score").removeClass("losingScore");
+            $(".p2Score").removeClass("losingScore equalScore");
             $(".p1Score").removeClass("equalScore leadScore");
-            $(".p2Score").removeClass("equalScore");
+            //$(".p2Score").removeClass("equalScore");
             $(".p1Score").addClass("losingScore");
             $(".p2Score").addClass("leadScore");
         }
         else if (hitCountP2 === hitCountP1) {
-            $(".p2Score").removeClass("losingScore");
-            $(".p2Score").removeClass("leadScore");
+            $(".p2Score").removeClass("losingScore leadScore");
+            //$(".p2Score").removeClass("leadScore");
             $(".p1Score").addClass("equalScore");
             $(".p2Score").addClass("equalScore");
         }
+        else if (hitCountP1 > hitCountP2) {
+            $(".p1Score").removeClass("losingScore equalScore");
+            $(".p2Score").removeClass("equalScore leadScore");
+            $(".p1Score").addClass("leadScore");
+            $(".p2Score").addClass("losingScore");
+        }
     }
+
+    // function shipHit(){
+    //     if ($(this).hasClass("carrier")){
+    //         carrier--;
+    //         if (carrier === 0){
+    //             $(".carrier").addClass("isSunk");
+    //             alert("Carrier Ship (5) was sunk!");
+    //         }
+    //     }
+    //     else if ($(this).hasClass("battleship")){
+    //         battleship--;
+    //         if (battleship === 0){
+    //             $(".battleship").addClass("isSunk");
+    //             alert("Battleship Ship (4) was sunk!");
+    //         }
+    //     }
+    //     else if ($(this).hasClass("cruiser")){
+    //         cruiser--;
+    //         if (cruiser === 0){
+    //             $(".cruiser").addClass("isSunk");
+    //             alert("Cruiser Ship (3) was sunk!");
+    //         }
+    //     }
+    //     else if ($(this).hasClass("destroyer")){
+    //         destroyer--;
+    //         if (destroyer === 0){
+    //             $(".destroyer").addClass("isSunk");
+    //             alert("Destroyer Ship (2) was sunk!");
+    //         }
+    //     }
+    // }
 
 
     $("#gameFieldID").addClass("boardPlay");
@@ -845,8 +903,17 @@ function playerTurns() {
     }
 
 
+
+    $("<h2 class='turn canHide'>Player " + playerNum + "'s Turn!</h2>").insertAfter($("h1"));
+    $("<p class='placeTitle rules0 canHide'>*************Rules*************</p>").insertAfter($(".turn"));
+    $("<p class='placeTitle rules1 canHide'>1.) Click onto the other player's board to attack!</p>").insertAfter($(".rules0"));
+    $("<p class='placeTitle rules2 canHide'>2.) White denotes a miss - Red denotes a hit - Black denotes a sink!</p>").insertAfter($(".rules1"));
+    $("<p class='placeTitle rules3 canHide'>3.) End your turn with the button that appears at the top of the page after you shoot!</p>").insertAfter($(".rules2"));
+
+
     var scoreboard = $("<table class='scoreboard'></table>");
-    scoreboard.insertAfter("h1");
+    // scoreboard.insertAfter("h1");
+    scoreboard.insertAfter(".rules3");
     $("<tr class='scoreboardTitle'></tr>").appendTo(scoreboard);
     $("<th class='scoreboardCell' colspan='2'>Player Scores</th>").appendTo(".scoreboardTitle");
 
@@ -889,6 +956,43 @@ function playerTurns() {
                 // $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").appendTo($(".turn"));
                 // $(".score1").addClass("hide");
                 //$(".score1").replaceWith($("<h3 class='score canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>"));          //fix, replaces all of rules and above
+                //shipHit();
+
+                if ($(this).hasClass("carrier")) {
+                    carrierP2--;
+                    if (carrierP2 === 0) {
+                        $("#board3 .carrier").addClass("isSunk");
+                        alert("Player 1 sunk Bot Player's Carrier Ship (5)!");
+                    }
+                }
+                else if ($(this).hasClass("battleship")) {
+                    battleshipP2--;
+                    if (battleshipP2 === 0) {
+                        $("#board3 .battleship").addClass("isSunk");
+                        alert("Player 1 sunk Bot Player's Battleship Ship (4)!");
+                    }
+                }
+                else if ($(this).hasClass("cruiser")) {
+                    cruiserP2--;
+                    if (cruiserP2 === 0) {
+                        $("#board3 .cruiser").addClass("isSunk");
+                        alert("Player 1 sunk Bot Player's Cruiser Ship (3)!");
+                    }
+                }
+                else if ($(this).hasClass("destroyer")) {
+                    destroyerP2--;
+                    if (destroyerP2 === 0) {
+                        $("#board3 .destroyer").addClass("isSunk");
+                        alert("Player 1 sunk Bot Player's Destroyer Ship (2)!");
+                    }
+
+                    // if (destroyerP2 === 0){
+                    //     if ($("#board3 td").hasClass("destroyer")){
+                    //         $("td").addClass("isSunk");
+                    //     }
+                    //     alert("Player 1 sunk Bot Player's Destroyer Ship (2)!");
+                    // }
+                }
 
                 p1Hit();
 
@@ -946,6 +1050,35 @@ function playerTurns() {
 
             //if (hitCountBot === 1) {
 
+            if ($(this).hasClass("carrier")) {
+                carrierP1--;
+                if (carrierP1 === 0) {
+                    $("#board1 .carrier").addClass("isSunk");
+                    alert("Bot Player sunk Player 1's Carrier Ship (5)!");
+                }
+            }
+            else if ($(this).hasClass("battleship")) {
+                battleshipP1--;
+                if (battleshipP1 === 0) {
+                    $("#board1 .battleship").addClass("isSunk");
+                    alert("Bot Player sunk Player 1's Battleship Ship (4)!");
+                }
+            }
+            else if ($(this).hasClass("cruiser")) {
+                cruiserP1--;
+                if (cruiserP1 === 0) {
+                    $("#board1 .cruiser").addClass("isSunk");
+                    alert("Bot Player sunk Player 1's Cruiser Ship (3)!");
+                }
+            }
+            else if ($(this).hasClass("destroyer")) {
+                destroyerP1--;
+                if (destroyerP1 === 0) {
+                    $("#board1 .destroyer").addClass("isSunk");
+                    alert("Bot Player sunk Player 1's Destroyer Ship (2)!");
+                }
+            }
+            //shipHit();
             p2Hit();
 
             if (hitCountP2 === 14) {
@@ -1013,6 +1146,36 @@ function playerTurns() {
                 // $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").appendTo($(".turn"));
                 // $(".score1").addClass("hide");
                 //$(".score1").replaceWith($("<h3 class='score canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>"));        //fix, replaces all of rules and above
+                //shipHit();
+
+                if ($(this).hasClass("carrier")) {
+                    carrierP2--;
+                    if (carrierP2 === 0) {
+                        $("#board2 .carrier").addClass("isSunk");
+                        alert("Player 1 sunk Player 2's Carrier Ship (5)!");
+                    }
+                }
+                else if ($(this).hasClass("battleship")) {
+                    battleshipP2--;
+                    if (battleshipP2 === 0) {
+                        $("#board2 .battleship").addClass("isSunk");
+                        alert("Player 1 sunk Player 2's Battleship Ship (4)!");
+                    }
+                }
+                else if ($(this).hasClass("cruiser")) {
+                    cruiserP2--;
+                    if (cruiserP2 === 0) {
+                        $("#board2 .cruiser").addClass("isSunk");
+                        alert("Player 1 sunk Player 2's Cruiser Ship (3)!");
+                    }
+                }
+                else if ($(this).hasClass("destroyer")) {
+                    destroyerP2--;
+                    if (destroyerP2 === 0) {
+                        $("#board2 .destroyer").addClass("isSunk");
+                        alert("Player 1 sunk Player 2's Destroyer Ship (2)!");
+                    }
+                }
 
                 p1Hit();
 
@@ -1040,6 +1203,7 @@ function playerTurns() {
             endTurnBtn.remove();
             startTurnBtn = $("<button id='startBtn' class='btn'>Start Turn " + turn + ", Player 2</button>").insertAfter($("h1"));
             console.log("End Turn Pressed");
+            $(".turn").replaceWith("<h2 class='turn canHide'>Player 2's Turn!</h2>");
             startTurnBtn.removeClass("hide");
             TwoPlayersP2Turn();
         }));
@@ -1091,6 +1255,38 @@ function playerTurns() {
                 $(this).removeClass("isShipHide");
                 hitCountP2++;
 
+                //shipHit();
+
+                if ($(this).hasClass("carrier")) {
+                    carrierP1--;
+                    if (carrierP1 === 0) {
+                        $("#board1 .carrier").addClass("isSunk");
+                        alert("Player 2 sunk Player 1's Carrier Ship (5)!");
+                    }
+                }
+                else if ($(this).hasClass("battleship")) {
+                    battleshipP1--;
+                    if (battleshipP1 === 0) {
+                        $("#board1 .battleship").addClass("isSunk");
+                        alert("Player 2 sunk Player 1's Battleship Ship (4)!");
+                    }
+                }
+                else if ($(this).hasClass("cruiser")) {
+                    cruiserP1--;
+                    if (cruiserP1 === 0) {
+                        $("#board1 .cruiser").addClass("isSunk");
+                        alert("Player 2 sunk Player 1's Cruiser Ship (3)!");
+                    }
+                }
+                else if ($(this).hasClass("destroyer")) {
+                    destroyerP1--;
+                    if (destroyerP1 === 0) {
+                        $("#board1 .destroyer").addClass("isSunk");
+                        alert("Player 2 sunk Player 1's Destroyer Ship (2)!");
+                    }
+                }
+
+
                 p2Hit();
 
                 if (hitCountP2 === 14) {
@@ -1112,12 +1308,13 @@ function playerTurns() {
         endTurnBtn.on("click", (function () {
             $("#board1").addClass("hide");
             $("#board2").addClass("hide");
-            $(".canHide").remove();
+            // $(".canHide").remove();
             $("h1").removeClass("h1Start");
             endTurnBtn.remove();
             turn++;
             startTurnBtn = $("<button id='startBtn' class='btn'>Start Turn " + turn + ", Player 1</button>").insertAfter($("h1"));
             console.log("End Turn Pressed");
+            $(".turn").replaceWith("<h2 class='turn canHide'>Player 1's Turn!</h2>");
             startTurnBtn.removeClass("hide");
             TwoPlayersP1Turn();
         }));
@@ -1145,6 +1342,7 @@ function endGameScreen(playerWon) {
     $("#board1").remove();
     $("#board2").remove();
     $("#board3").remove();
+    $(".canHide").remove();
     //$("h1").removeClass("h1Start");
 
 
@@ -1170,7 +1368,5 @@ function endGameScreen(playerWon) {
 
 
 //TO DO STILL:
-// 1.) Add rules list at top
-// 2.) Add forfeit button (turns all object numbers to 1 to reveal board)
-// 3.) Add Random Placement button for players
-// 6.) Don't let player click on same square to shoot again? Or let them make that mistake?
+// 1.) Add forfeit button (turns all object numbers to 1 to reveal board)
+// 2.) Don't let player click on same square to shoot again? Or let them make that mistake?
