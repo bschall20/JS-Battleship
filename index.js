@@ -16,8 +16,8 @@ function choosePlayers() {
 
     function create() {
         $("h1").addClass("h1Start");
-        $("#onePlayer").addClass("hide");
-        $("#twoPlayer").addClass("hide");
+        $("#onePlayer").remove();
+        $("#twoPlayer").remove();
         createBoard(board1);
     }
 
