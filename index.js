@@ -2,7 +2,6 @@
 choosePlayers();
 const board1 = [];                  // Player 1 Board
 const board2 = [];                  // Player 2/Bot Board
-//const board3 = [];                  // Player Bot Board
 let n = 1;
 let players = 0;                    // Keeps track of how many times createBoard is ran (for total players(2))
 
@@ -115,7 +114,6 @@ function createBoard(board) {
     }
     else { var tableTitle = $("<h2>Bot Player Board</h2>") }
 
-    // var tableTitle = $("<h2>Player " + n + "</h2>")
     var table = $("<table></table>");
     for (var i = 0; i < board.length; i++) {
 
@@ -157,11 +155,6 @@ function createBoard(board) {
 
 //*********************Set Player Ships*******************//
 function placeAllShips() {
-    // const carrier = 5;
-    // const battleship = 4;
-    // const cruiser = 3;
-    // // const submarine = 3;
-    // const destroyer = 2;
     let spot = 0;
     let rndmClick = 0;
 
@@ -189,7 +182,6 @@ function placeAllShips() {
 
     //Set board for player 2
     else if (n === 2) {
-        //$("#board1").addClass("hide");
         alert("Place ships, Player 2!");
         placeShip(5);
     }
@@ -201,14 +193,7 @@ function placeAllShips() {
 
 
 
-
-    //can maybe get this function to run as placeShip and make the input variable of the const ships
     function placeShip(ship, direction, spot) {
-        // let carrier = 5;
-        // let battleship = 4;
-        // let cruiser = 3;
-        // let destroyer = 2;
-
 
         function hide() {
             $(".vhTitle").remove();
@@ -248,7 +233,7 @@ function placeAllShips() {
                     createBoard(board2);
                     $(".donePlacingP1").addClass("hide");
                     $("#board1").addClass("hide");      //hides board one after click. taken from n===2 section "Set board for player 2"
-                    //maybe call an empty screen with a button here for p2 to hit ready then place?
+                                                        //maybe call an empty screen with a button here for p2 to hit ready then place?
                 }));
             }
             //PLAYER 2
@@ -261,7 +246,6 @@ function placeAllShips() {
                     n += 2;
                     //Call player 1 to play.
                     $(".donePlacingP2").addClass("hide");
-                    //$("#board1").removeClass("hide");
 
                     $("td").off("click");
                     console.log(`n is equal to ${n}`);
@@ -300,16 +284,12 @@ function placeAllShips() {
         }
 
 
-        //$("<h3 class='vhTitle'>Choose which way to place your ship of (" + ship + ") spots!</h3>").insertAfter($("#board" + n));
         $("<h3 class='vhTitle'>Choose which way to place your ship of (" + ship + ") spots!</h3>").appendTo($(".shipDirection"));
         $("<button class='horizBtn btn'>Place ship (" + ship + ") horizontal</button>").insertAfter($(".vhTitle"));
         $("<button class='rndmHorizBtn btn'>Place ship (" + ship + ") horizontal randomly</button>").insertAfter($(".horizBtn"));
         $("<button class='vertBtn btn'>Place ship (" + ship + ") vertical</button>").insertAfter($(".rndmHorizBtn"));
         $("<button class='rndmVertBtn btn'>Place ship (" + ship + ") vertical randomly</button>").insertAfter($(".vertBtn"));
         $("<button class='rndmAll btn' style='flex: 100%;'>Place remaining ship(s) randomly</button>").insertAfter($(".rndmVertBtn"));
-        // $("<h3 class='vhTitle'>Choose which way to place your ship of (" + ship + ") spots!</h3>").insertAfter($("#board" + n));
-        // $("<button class='horizBtn btn'>Place ship (" + ship + ") horizontal</button>").insertAfter($(".vhTitle"));
-        // $("<button class='vertBtn btn'>Place ship (" + ship + ") vertical</button>").insertAfter($(".horizBtn"));
 
 
 
@@ -375,8 +355,6 @@ function placeAllShips() {
                 console.log("clicked random all!");
                 console.log(ship);
                 ship--;
-                //placeShip(ship, direction, spot);
-                //botShipPlacement(ship);
             } while (ship >= 2);
 
         }));
@@ -392,14 +370,6 @@ function placeAllShips() {
 
 
         //HORIZONTAL SHIP PLACEMENT
-
-        // function horizontal(){
-        //     if (direction === 1 || horizontal === true){
-        //         horizPlace();
-        //     }
-        // }
-
-        // $(".horizBtn").on("click", (function () {
         function horizontal(spot) {
 
             //*********KEEP TRACK OF BOUNDARIES ON HORIZONTAL*********//
@@ -419,8 +389,7 @@ function placeAllShips() {
             // EX: Placement of ship 3 only needs top 2 rows invalidated for placement
             function endShipPlacementErrorHoriz() {
                 let wrong = ship - 1;
-                // alert("ERROR: Try placement elsewhere!")
-                //console.log("Cannot place in the following slots (right most " + wrong + " column(s)): " + notAllowedHoriz);
+
                 $("td").off("click");
                 $(".placeTitle").addClass("hide");
 
@@ -487,16 +456,6 @@ function placeAllShips() {
                 place(spotStr);
             }
 
-            //need to get place(spot) to also be the ID spot
-            //something like: $("td").prop("#spot")
-
-            //$("td").on("click", (function () {
-            // let slotID = $(this).prop("id");
-            // let slot = parseInt(slotID);
-            // let slot1 = slot + 1;
-            // let slot2 = slot + 2;
-            // let slot3 = slot + 3;
-
             function place(boardSpot) {
                 let slot = parseInt(boardSpot);
                 let slot1 = slot + 1;
@@ -508,7 +467,6 @@ function placeAllShips() {
 
                 //PLACE SHIP OF 5 SLOTS HORIZONTALLY
                 if (ship === 5) {
-                    //if (notAllowedHoriz.includes($(this).prop("id"))) {
                     if (notAllowedHoriz.includes(boardSpot)) {
                         endShipPlacementErrorHoriz();
                     }
@@ -521,7 +479,6 @@ function placeAllShips() {
                 //PLACE SHIP OF 4 SLOTS HORIZONTALLY
                 else if (ship === 4) {
                     notAllowedHoriz4();
-                    //if (notAllowedHoriz.includes($(boardSpot).prop("id"))) {
                     if (notAllowedHoriz.includes(boardSpot)) {
                         endShipPlacementErrorHoriz();
                     }
@@ -538,7 +495,6 @@ function placeAllShips() {
                 else if (ship === 3) {
                     notAllowedHoriz3();
 
-                    //if (notAllowedHoriz.includes($(boardSpot).prop("id"))) {
                     if (notAllowedHoriz.includes(boardSpot)) {
                         endShipPlacementErrorHoriz();
                     }
@@ -555,7 +511,6 @@ function placeAllShips() {
                 else if (ship === 2) {
                     notAllowedHoriz2();
 
-                    //if (notAllowedHoriz.includes($(boardSpot).prop("id"))) {
                     if (notAllowedHoriz.includes(boardSpot)) {
                         endShipPlacementErrorHoriz();
                     }
@@ -569,15 +524,11 @@ function placeAllShips() {
                         finishAllPlacement();
                     }
                 }
-                //}));
             }
-            // }));
         }
 
 
         //VERTICAL SHIP PLACEMENT
-        //$(".vertBtn").on("click", (function () {
-
         function vertical() {
 
             //*********KEEP TRACK OF BOUNDARIES ON VERTICAL*********//
@@ -591,8 +542,6 @@ function placeAllShips() {
             // EX: Placement of ship 3 only needs right 2 columns invalidated for placement
             function endShipPlacementErrorVert() {
                 let wrong = ship - 1;
-                //alert("ERROR: Try placement elsewhere!")
-                //console.log("Cannot place in the following slots (top most " + wrong + " row(s)): " + notAllowedVert);
                 $("td").off("click");
                 $(".placeTitle").addClass("hide");
 
@@ -644,15 +593,6 @@ function placeAllShips() {
             $("<h3 class='placeTitle'>Place Vertical Ship (" + ship + ") Spots.</h3>").appendTo($("#board" + n));
             $("<p class='placeTitle'>***The ship will be placed (" + ship + ") continuous spaces upward from the selected slot***</p>").appendTo($("#board" + n));
 
-
-            // $("td").on("click", (function () {
-            //     let slotID = $(this).prop("id");
-            //     place(slotID);
-            // }))
-            // if (n === 3) {
-            //     place(spot);
-            // }
-
             $("td").on("click", (function () {
                 let slotID = $(this).prop("id");
                 place(slotID);
@@ -662,15 +602,6 @@ function placeAllShips() {
                 place(spotStr);
             }
 
-            // $("td").on("click", (function () {
-            //     let slotID = $(this).prop("id");
-            //     let slot = parseInt(slotID);
-            //     let slot11 = slot - 11;
-            //     let slot22 = slot - 22;
-            //     let slot33 = slot - 33;
-            //     let slot44 = slot - 44;
-
-
             function place(boardSpot) {
                 let slot = parseInt(boardSpot);
                 let slot11 = slot - 11;
@@ -679,13 +610,9 @@ function placeAllShips() {
                 let slot44 = slot - 44;
 
 
-
-
-
                 //PLACE SHIP OF 5 SLOTS VERTICALLY
                 if (ship === 5) {
                     if (notAllowedVert.includes(boardSpot)) {
-                        //if (notAllowedVert.includes($(this).prop("id"))) {
                         endShipPlacementErrorVert();
                     }
                     else {
@@ -704,7 +631,6 @@ function placeAllShips() {
                     notAllowedVert4();
 
                     if (notAllowedVert.includes(boardSpot)) {
-                        //if (notAllowedVert.includes($(this).prop("id"))) {
                         endShipPlacementErrorVert();
                     }
                     else if (($(`#board${n} #${slot}`).hasClass("isShip")) || ($(`#board${n} #${slot11}`).hasClass("isShip")) || ($(`#board${n} #${slot22}`).hasClass("isShip")) || ($(`#board${n} #${slot33}`).hasClass("isShip"))) {
@@ -724,7 +650,6 @@ function placeAllShips() {
                     notAllowedVert3();
 
                     if (notAllowedVert.includes(boardSpot)) {
-                        //if (notAllowedVert.includes($(this).prop("id"))) {
                         endShipPlacementErrorVert();
                     }
                     else if (($(`#board${n} #${slot}`).hasClass("isShip")) || ($(`#board${n} #${slot11}`).hasClass("isShip")) || ($(`#board${n} #${slot22}`).hasClass("isShip"))) {
@@ -744,7 +669,6 @@ function placeAllShips() {
                     notAllowedVert2();
 
                     if (notAllowedVert.includes(boardSpot)) {
-                        //if (notAllowedVert.includes($(this).prop("id"))) {
                         endShipPlacementErrorVert();
                     }
                     else if (($(`#board${n} #${slot}`).hasClass("isShip")) || ($(`#board${n} #${slot11}`).hasClass("isShip"))) {
@@ -758,9 +682,7 @@ function placeAllShips() {
                         finishAllPlacement();
                     }
                 }
-                //}));
             }
-            //}));
         }
     }
 }
@@ -812,20 +734,15 @@ function playerTurns() {
             $(".p2Score").removeClass("equalScore leadScore");
             $(".p1Score").addClass("leadScore");
             $(".p2Score").addClass("losingScore");
-
-            // $("<td class='p1Score scoreboardCell'>" + hitCountP1 + "</td>").appendTo(".scoreboardScore");
-            // $("<td class='p2Score scoreboardCell'>" + hitCountP2 + "</td>").appendTo(".scoreboardScore");
         }
         else if (hitCountP1 === hitCountP2) {
             $(".p1Score").removeClass("losingScore leadScore");
-            //$(".p1Score").removeClass("leadScore");
             $(".p1Score").addClass("equalScore");
             $(".p2Score").addClass("equalScore");
         }
-        else if (hitCountP1 < hitCountP2){
+        else if (hitCountP1 < hitCountP2) {
             $(".p2Score").removeClass("losingScore equalScore");
             $(".p1Score").removeClass("equalScore leadScore");
-            //$(".p2Score").removeClass("equalScore");
             $(".p1Score").addClass("losingScore");
             $(".p2Score").addClass("leadScore");
         }
@@ -837,13 +754,11 @@ function playerTurns() {
         if (hitCountP2 > hitCountP1) {
             $(".p2Score").removeClass("losingScore equalScore");
             $(".p1Score").removeClass("equalScore leadScore");
-            //$(".p2Score").removeClass("equalScore");
             $(".p1Score").addClass("losingScore");
             $(".p2Score").addClass("leadScore");
         }
         else if (hitCountP2 === hitCountP1) {
             $(".p2Score").removeClass("losingScore leadScore");
-            //$(".p2Score").removeClass("leadScore");
             $(".p1Score").addClass("equalScore");
             $(".p2Score").addClass("equalScore");
         }
@@ -912,7 +827,6 @@ function playerTurns() {
 
 
     var scoreboard = $("<table class='scoreboard'></table>");
-    // scoreboard.insertAfter("h1");
     scoreboard.insertAfter(".rules3");
     $("<tr class='scoreboardTitle'></tr>").appendTo(scoreboard);
     $("<th class='scoreboardCell' colspan='2'>Player Scores</th>").appendTo(".scoreboardTitle");
@@ -953,10 +867,6 @@ function playerTurns() {
                 $(this).removeClass("isShip");
                 $(this).removeClass("isShipHide");
                 hitCountP1++;
-                // $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").appendTo($(".turn"));
-                // $(".score1").addClass("hide");
-                //$(".score1").replaceWith($("<h3 class='score canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>"));          //fix, replaces all of rules and above
-                //shipHit();
 
                 if ($(this).hasClass("carrier")) {
                     carrierP2--;
@@ -985,13 +895,6 @@ function playerTurns() {
                         $("#board3 .destroyer").addClass("isSunk");
                         alert("Player 1 sunk Bot Player's Destroyer Ship (2)!");
                     }
-
-                    // if (destroyerP2 === 0){
-                    //     if ($("#board3 td").hasClass("destroyer")){
-                    //         $("td").addClass("isSunk");
-                    //     }
-                    //     alert("Player 1 sunk Bot Player's Destroyer Ship (2)!");
-                    // }
                 }
 
                 p1Hit();
@@ -1009,13 +912,9 @@ function playerTurns() {
             }
             $('html, body').animate({ scrollTop: 0 }, 'fast');
             $("#board3 td").off("click");
-            // endTurnBtn.insertAfter($("h1"));
         }));
 
         endTurnBtn.on("click", (function () {
-            // $("#board1").addClass("hide");
-            // $("#board2").addClass("hide");
-            // $("h1").removeClass("h1Start");
             endTurnBtn.remove();
             console.log("End Turn Pressed");
             botTurnVsPlayer();
@@ -1043,12 +942,6 @@ function playerTurns() {
             $(`#board1 #${shotStr}`).removeClass("isShipHide");
             shotTrackHit.push(shot);
             hitCountP2++;
-            //hitCountBot++;
-            // $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").appendTo($(".turn"));
-            // $(".score1").addClass("hide");
-            //$(".score1").replaceWith($("<h3 class='score canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>"));          //fix, replaces all of rules and above
-
-            //if (hitCountBot === 1) {
 
             if ($(this).hasClass("carrier")) {
                 carrierP1--;
@@ -1107,34 +1000,12 @@ function playerTurns() {
 
             $("#board1").removeClass("hide");
             $("#board2").removeClass("hide");
-            //$("#board1 td").off("click");
 
             if ($("#board2 td").hasClass("isShip")) {
                 $("#board2 td").addClass("isShipHide");
             }
 
             $("#board1 td").removeClass("isShipHide");
-
-            // if (turn === 1) {
-            //     $("<h2 class='turn canHide'>Player " + playerNum + "'s Turn!</h2>").insertAfter($("h1"));
-            //     $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").insertAfter($("h2"));
-            //     $("<h3 class='score2 canHide'>Player 2 Hit Count: " + hitCountP2 + "/14</h3>").appendTo($(".score1"));
-            //     $("<p class='placeTitle rules0 canHide'>!!!!!!!!!!!!!Rules!!!!!!!!!!!!!</p>").insertAfter($(".score1"));
-            //     $("<p class='placeTitle rules1 canHide'>1.) Click onto the other player's board (shown on top) to attack!</p>").appendTo($(".rules0"));
-            //     $("<p class='placeTitle rules2 canHide'>2.) White denotes a miss - Red denotes a hit</p>").appendTo($(".rules1"));
-            // }
-            // else {
-            //     $(".canHide").removeClass("hide");
-            // }
-
-            // $("<h2 class='turn canHide'>Player " + playerNum + "'s Turn!</h2>").insertAfter($("h1"));
-            // $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").insertAfter($("h2"));
-            // $("<h3 class='score2 canHide'>Player 2 Hit Count: " + hitCountP2 + "/14</h3>").appendTo($(".score1"));
-            // $("<p class='placeTitle rules0 canHide'>!!!!!!!!!!!!!Rules!!!!!!!!!!!!!</p>").insertAfter($(".score1"));
-            // $("<p class='placeTitle rules1 canHide'>1.) Click onto the other player's board (shown on top) to attack!</p>").appendTo($(".rules0"));
-            // $("<p class='placeTitle rules2 canHide'>2.) White denotes a miss - Red denotes a hit</p>").appendTo($(".rules1"));
-
-
         }));
 
         $("#board2 td").on("click", (function () {
@@ -1143,10 +1014,6 @@ function playerTurns() {
                 $(this).removeClass("isShip");
                 $(this).removeClass("isShipHide");
                 hitCountP1++;
-                // $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").appendTo($(".turn"));
-                // $(".score1").addClass("hide");
-                //$(".score1").replaceWith($("<h3 class='score canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>"));        //fix, replaces all of rules and above
-                //shipHit();
 
                 if ($(this).hasClass("carrier")) {
                     carrierP2--;
@@ -1193,7 +1060,6 @@ function playerTurns() {
             }
             $('html, body').animate({ scrollTop: 0 }, 'fast');
             $("#board2 td").off("click");
-            //endTurnBtn.insertAfter($("h1"));
         }));
 
         endTurnBtn.on("click", (function () {
@@ -1228,34 +1094,17 @@ function playerTurns() {
             }
 
             $("#board2 td").removeClass("isShipHide");
-
-
-            // $("<h2 class='turn canHide'>Player " + playerNum + "'s Turn!</h2>").insertAfter($("h1"));
-            // $("<h3 class='score1 canHide'>Player 1 Hit Count: " + hitCountP1 + "/14</h3>").insertAfter($("h2"));
-            // $("<h3 class='score2 canHide'>Player 2 Hit Count: " + hitCountP2 + "/14</h3>").appendTo($(".score1"));
-            // $("<p class='placeTitle rules0 canHide'>!!!!!!!!!!!!!Rules!!!!!!!!!!!!!</p>").insertAfter($(".score1"));
-            // $("<p class='placeTitle rules1 canHide'>1.) Click onto the other player's board (shown on top) to attack!</p>").appendTo($(".rules0"));
-            // $("<p class='placeTitle rules2 canHide'>2.) White denotes a miss - Red denotes a hit</p>").appendTo($(".rules1"));
-
         }));
 
 
         $("#board1 td").on("click", (function () {
             console.log("Board 1 TD Clicked");
 
-            // if ($(this).hasClass("isMiss" || "isHit")){
-            //     alert("Shot already taken there! Please shoot again!");
-            //     TwoPlayersP2Turn();
-            // }
-            // else if ($(this).hasClass("isShip")) {
-
             if ($(this).hasClass("isShip")) {
                 $(this).addClass("isHit");
                 $(this).removeClass("isShip");
                 $(this).removeClass("isShipHide");
                 hitCountP2++;
-
-                //shipHit();
 
                 if ($(this).hasClass("carrier")) {
                     carrierP1--;
@@ -1302,13 +1151,11 @@ function playerTurns() {
             }
             $('html, body').animate({ scrollTop: 0 }, 'fast');
             $("#board1 td").off("click");
-            // endTurnBtn.insertAfter($("h1"));
         }));
 
         endTurnBtn.on("click", (function () {
             $("#board1").addClass("hide");
             $("#board2").addClass("hide");
-            // $(".canHide").remove();
             $("h1").removeClass("h1Start");
             endTurnBtn.remove();
             turn++;
@@ -1343,8 +1190,6 @@ function endGameScreen(playerWon) {
     $("#board2").remove();
     $("#board3").remove();
     $(".canHide").remove();
-    //$("h1").removeClass("h1Start");
-
 
     $("<h2 class='endGameH'>Player " + playerWon + " Has Won!</h2>").insertAfter("h1");
     $("<p class='endGameP'>If you enjoyed this game, feel free to restart below!</p>").insertAfter(".endGameH");
@@ -1357,16 +1202,6 @@ function endGameScreen(playerWon) {
 
 
 
-//on click, make isShot go to 1, add isShot to the <td></td> cell, adjust numbers
-// look into above loop and jquery to see if you can target the specific table data cell
-
-
-
-// 1.) isShip starts at 1 if a ship is there. When isShot goes to 1 (on click),
-// isHit goes to 1 as well
-// 2.) Don't allow location to be shot at again if isShot = 1
-
-
-//TO DO STILL:
+//TO DO STILL?:
 // 1.) Add forfeit button (turns all object numbers to 1 to reveal board)
 // 2.) Don't let player click on same square to shoot again? Or let them make that mistake?
